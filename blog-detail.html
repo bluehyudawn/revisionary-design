@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Ace Your VCE English: Text Response Strategies — RevisionOnline</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --stone-50:#f8f8f6; --stone-100:#f4f4f1; --stone-200:#e7e5e4;
+      --stone-300:#d6d3d1; --stone-400:#a6a09b; --stone-500:#79716b;
+      --stone-600:#57534d; --stone-700:#44403b; --stone-800:#292524; --stone-900:#1c1917;
+      --revision-50:#f5f2ff; --revision-100:#ece8fd; --revision-200:#dcd1ff;
+      --revision-400:#a280f8; --revision-500:#783cf0; --revision-600:#7225e6;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f4f4f1; color: #1c1917; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+
+    /* Article body typography */
+    .article-body { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.78; color: #292524; }
+    .article-body h2 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 22px; color: #1c1917; margin: 44px 0 16px; padding-top: 4px; }
+    .article-body h3 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; color: #292524; margin: 32px 0 12px; }
+    .article-body p { margin-bottom: 22px; }
+    .article-body ul, .article-body ol { padding-left: 26px; margin-bottom: 22px; }
+    .article-body li { margin-bottom: 10px; }
+    .article-body strong { font-weight: 600; color: #1c1917; }
+    .article-body .callout {
+      background: #f5f2ff; border-left: 3px solid #783cf0; border-radius: 0 10px 10px 0;
+      padding: 18px 22px; margin: 28px 0;
+    }
+    .article-body .callout p { margin-bottom: 0; }
+    .article-body .callout strong { color: #783cf0; }
+    .article-body .tip {
+      background: #d1faea; border-left: 3px solid #07947a; border-radius: 0 10px 10px 0;
+      padding: 18px 22px; margin: 28px 0;
+    }
+    .article-body .tip p { margin-bottom: 0; }
+    .article-body .tip strong { color: #07947a; }
+    .toc-link { display: block; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13.5px; line-height: 1.4; padding: 7px 12px; border-radius: 7px; color: #79716b; text-decoration: none; transition: all 0.15s; border-left: 2px solid transparent; }
+    .toc-link:hover { background: #f5f2ff; color: #783cf0; border-left-color: #dcd1ff; }
+    .toc-link.active { background: #f5f2ff; color: #783cf0; border-left-color: #783cf0; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ── Shared components ─────────────────────────────────────────────── */
+function Avatar({ initials, size=36 }) {
+  return (
+    <div style={{ width:size, height:size, borderRadius:"50%", background:"linear-gradient(135deg,#dcd1ff,#783cf0)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+      <span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:Math.round(size*0.38), color:"#fff" }}>{initials}</span>
+    </div>
+  );
+}
+
+function Nav() {
+  return (
+    <nav style={{ position:"sticky", top:0, zIndex:100, background:"#fff", borderBottom:"1px solid #e7e5e4", height:64 }}>
+      <div style={{ maxWidth:1240, margin:"0 auto", padding:"0 32px", height:"100%", display:"flex", alignItems:"center", gap:40 }}>
+        <a href="#" style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:18, color:"#1c1917", whiteSpace:"nowrap" }}>
+          Revision<span style={{ color:"#783cf0" }}>Online</span>
+        </a>
+        <div style={{ display:"flex", alignItems:"center", gap:28, flex:1 }}>
+          {["Score Calculator","VCE Schedule","Features","Blog","Contact"].map(item => (
+            <a key={item} href={item==="Blog"?"blog.html":"#"}
+              style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:item==="Blog"?"#783cf0":"#57534d", whiteSpace:"nowrap" }}>
+              {item}
+            </a>
+          ))}
+        </div>
+        <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+          <a href="#" style={{ padding:"10px 18px", borderRadius:60, border:"1px solid #e7e5e4", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#44403b", cursor:"pointer" }}>
+            Sign in
+          </a>
+          <a href="#" style={{ padding:"10px 18px", borderRadius:60, background:"#783cf0", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#fff", cursor:"pointer", boxShadow:"0 6px 2px -4px rgba(14,14,44,0.1)", whiteSpace:"nowrap" }}>
+            Get started — it's free
+          </a>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+function Footer() {
+  return (
+    <footer style={{ background:"#1c1917", marginTop:80, padding:"56px 32px 40px" }}>
+      <div style={{ maxWidth:1240, margin:"0 auto" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:40, marginBottom:48 }}>
+          <div style={{ maxWidth:280 }}>
+            <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:18, color:"#fff", marginBottom:10 }}>
+              Revision<span style={{ color:"#a280f8" }}>Online</span>
+            </div>
+            <p style={{ fontFamily:"Inter,sans-serif", fontSize:14, lineHeight:1.6, color:"#79716b" }}>
+              Australia's leading VCE exam preparation platform, trusted by thousands of students every year.
+            </p>
+          </div>
+          <div style={{ display:"flex", gap:56, flexWrap:"wrap" }}>
+            {[
+              { label:"Platform",  links:["Score Calculator","VCE Schedule","Features","Pricing"] },
+              { label:"Resources", links:["Blog","Study Guides","Practice Exams","Subject Notes"] },
+              { label:"Company",   links:["About","Contact","Privacy","Terms"] },
+            ].map(col => (
+              <div key={col.label}>
+                <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:11, color:"#57534d", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:16 }}>
+                  {col.label}
+                </div>
+                <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+                  {col.links.map(link => (
+                    <a key={link} href="#" style={{ fontFamily:"Inter,sans-serif", fontSize:14, color:"#a6a09b" }}>{link}</a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ borderTop:"1px solid #292524", paddingTop:24 }}>
+          <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#57534d" }}>© 2026 RevisionOnline Pty Ltd. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ── TOC data ──────────────────────────────────────────────────────── */
+const TOC_ITEMS = [
+  { id:"why-matters",     label:"Why Text Response Matters" },
+  { id:"decode-prompt",   label:"Decoding the Prompt" },
+  { id:"build-argument",  label:"Building a Sophisticated Argument" },
+  { id:"essay-structure", label:"The Perfect Essay Structure" },
+  { id:"sophistication",  label:"Writing with Sophistication" },
+  { id:"mistakes",        label:"Common Mistakes to Avoid" },
+  { id:"action-plan",     label:"Your Action Plan" },
+];
+
+const RELATED = [
+  { category:"Study Tips",     categoryStyle:{ bg:"#ece8fd", color:"#783cf0" }, title:"The Science of Spaced Repetition: Study Smarter, Not Harder",    author:"James Chen",    initials:"JC", date:"14 Mar 2026", readTime:"6 min",  gradient:"linear-gradient(135deg,#dfe8ff,#a1b8ff)" },
+  { category:"Exam Prep",      categoryStyle:{ bg:"#ffedd4", color:"#ea5a0c" }, title:"Managing Exam Anxiety: Strategies That Actually Work",            author:"Dr. Lisa Park", initials:"LP", date:"6 Mar 2026",  readTime:"7 min",  gradient:"linear-gradient(135deg,#ffedd4 0%,#ea5a0c 90%)" },
+  { category:"Subject Guides", categoryStyle:{ bg:"#dfe8ff", color:"#5967f4" }, title:"VCE Math Methods: 5 Topics Every Student Struggles With",        author:"Emma Torres",   initials:"ET", date:"10 Mar 2026", readTime:"10 min", gradient:"linear-gradient(135deg,#d1faea 0%,#07947a 90%)" },
+];
+
+/* ── Sidebar ───────────────────────────────────────────────────────── */
+function TableOfContents({ activeSection }) {
+  return (
+    <div style={{ background:"#fff", borderRadius:14, border:"1px solid #e7e5e4", padding:"20px 16px", boxShadow:"0 1px 3px rgba(0,0,0,0.04)" }}>
+      <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:11, color:"#a6a09b", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:12, padding:"0 4px" }}>
+        In this article
+      </div>
+      <nav>
+        {TOC_ITEMS.map(item => (
+          <a key={item.id} href={`#${item.id}`} className={`toc-link${activeSection===item.id?" active":""}`}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+function AuthorCard() {
+  return (
+    <div style={{ background:"#fff", borderRadius:14, border:"1px solid #e7e5e4", padding:"24px", boxShadow:"0 1px 3px rgba(0,0,0,0.04)", marginTop:20 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
+        <Avatar initials="SM" size={44} />
+        <div>
+          <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:15, color:"#1c1917" }}>Sarah Mitchell</div>
+          <div style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#79716b" }}>VCE Study Coach</div>
+        </div>
+      </div>
+      <p style={{ fontFamily:"Inter,sans-serif", fontSize:13.5, lineHeight:1.6, color:"#57534d", marginBottom:16 }}>
+        Sarah has helped hundreds of VCE students improve their English scores. She holds a Masters in Education and is passionate about making complex ideas accessible to every student.
+      </p>
+      <a href="#" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 16px", borderRadius:60, border:"1px solid #e7e5e4", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:13, color:"#44403b", background:"#fff" }}>
+        View all articles
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="#44403b" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </a>
+    </div>
+  );
+}
+
+function ShareCard() {
+  return (
+    <div style={{ background:"linear-gradient(135deg,#f5f2ff,#ece8fd)", borderRadius:14, border:"1px solid #dcd1ff", padding:"20px 24px", marginTop:20 }}>
+      <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:15, color:"#1c1917", marginBottom:6 }}>
+        Found this helpful?
+      </div>
+      <p style={{ fontFamily:"Inter,sans-serif", fontSize:13.5, color:"#57534d", marginBottom:16, lineHeight:1.5 }}>
+        Share with a classmate who needs it.
+      </p>
+      <div style={{ display:"flex", gap:8 }}>
+        {["Twitter","LinkedIn","Copy link"].map(s => (
+          <button key={s} style={{ flex:1, padding:"8px 0", borderRadius:8, border:"1px solid #dcd1ff", background:"rgba(255,255,255,0.7)", fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12, color:"#783cf0", cursor:"pointer" }}>
+            {s}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Related articles ──────────────────────────────────────────────── */
+function RelatedCard({ article }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a href="blog-detail.html"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ display:"block", background:"#fff", borderRadius:14, border:"1px solid #e7e5e4", overflow:"hidden", cursor:"pointer", transition:"box-shadow 0.2s, transform 0.2s", boxShadow:hovered?"0 8px 28px rgba(120,60,240,0.1)":"0 1px 3px rgba(0,0,0,0.04)", transform:hovered?"translateY(-2px)":"none" }}>
+      <div style={{ height:160, background:article.gradient, position:"relative" }}>
+        <div style={{ position:"absolute", top:14, left:14 }}>
+          <span style={{ display:"inline-flex", padding:"2px 10px", borderRadius:6, background:article.categoryStyle.bg, fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12, color:article.categoryStyle.color }}>
+            {article.category}
+          </span>
+        </div>
+      </div>
+      <div style={{ padding:"18px 22px 22px" }}>
+        <h4 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:16, lineHeight:1.3, color:"#1c1917", marginBottom:16, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
+          {article.title}
+        </h4>
+        <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+          <Avatar initials={article.initials} size={28} />
+          <div style={{ flex:1 }}>
+            <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:12.5, color:"#292524" }}>{article.author}</div>
+            <div style={{ fontFamily:"Inter,sans-serif", fontSize:12, color:"#a6a09b" }}>{article.date}</div>
+          </div>
+          <span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12, color:"#a6a09b" }}>{article.readTime} read</span>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+/* ── Main App ──────────────────────────────────────────────────────── */
+function App() {
+  const [activeSection, setActiveSection] = useState("why-matters");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id); });
+    }, { rootMargin:"-20% 0px -70% 0px" });
+    TOC_ITEMS.forEach(({ id }) => { const el = document.getElementById(id); if (el) observer.observe(el); });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div>
+      <Nav />
+
+      {/* Article header */}
+      <div style={{ background:"#fff", borderBottom:"1px solid #e7e5e4" }}>
+        <div style={{ maxWidth:840, margin:"0 auto", padding:"32px 32px 36px" }}>
+          {/* Breadcrumb */}
+          <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:24 }}>
+            <a href="#" style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#a6a09b" }}>Home</a>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5l3 3.5-3 3.5" stroke="#d6d3d1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <a href="blog.html" style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#a6a09b" }}>Blog</a>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5l3 3.5-3 3.5" stroke="#d6d3d1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#783cf0", fontWeight:500 }}>Study Tips</span>
+          </div>
+          {/* Category + time */}
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:18 }}>
+            <span style={{ display:"inline-flex", padding:"3px 12px", borderRadius:6, background:"#ece8fd", fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:13, color:"#783cf0" }}>
+              Study Tips
+            </span>
+            <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#a6a09b" }}>8 min read</span>
+            <span style={{ width:3, height:3, borderRadius:"50%", background:"#d6d3d1" }} />
+            <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#a6a09b" }}>18 Mar 2026</span>
+          </div>
+          {/* Title */}
+          <h1 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:38, lineHeight:1.14, color:"#1c1917", marginBottom:18 }}>
+            How to Ace Your VCE English:<br />Text Response Strategies
+          </h1>
+          {/* Subtitle */}
+          <p style={{ fontFamily:"Inter,sans-serif", fontWeight:400, fontSize:18, lineHeight:1.55, color:"#57534d", marginBottom:28 }}>
+            Master the art of writing compelling text responses with proven strategies from top-scoring VCE students across Australia.
+          </p>
+          {/* Author row */}
+          <div style={{ display:"flex", alignItems:"center", gap:12, paddingTop:20, borderTop:"1px solid #f4f4f1" }}>
+            <Avatar initials="SM" size={44} />
+            <div>
+              <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:15, color:"#1c1917" }}>Sarah Mitchell</div>
+              <div style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#79716b" }}>VCE Study Coach · 18 Mar 2026</div>
+            </div>
+            <div style={{ marginLeft:"auto", display:"flex", gap:8 }}>
+              {[
+                { label:"8 min read", icon:<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#a6a09b" strokeWidth="1.4"/><path d="M7 4.5v3l1.5 1.5" stroke="#a6a09b" strokeWidth="1.4" strokeLinecap="round"/></svg> },
+                { label:"Year 12",    icon:<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="3.5" width="10" height="8" rx="1.5" stroke="#a6a09b" strokeWidth="1.4"/><path d="M5 3.5V2.5a1 1 0 0 1 2 0v1M4.5 7h5M4.5 9.5h3" stroke="#a6a09b" strokeWidth="1.4" strokeLinecap="round"/></svg> },
+              ].map(({ label, icon }) => (
+                <div key={label} style={{ display:"flex", alignItems:"center", gap:5, padding:"6px 12px", borderRadius:8, background:"#f4f4f1", fontFamily:"Inter,sans-serif", fontSize:13, color:"#79716b" }}>
+                  {icon}{label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hero art */}
+      <div style={{ background:"linear-gradient(135deg,#f5f2ff 0%,#dcd1ff 45%,#a280f8 100%)", height:320, maxWidth:"100%", position:"relative", overflow:"hidden" }}>
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", gap:24 }}>
+          {/* Decorative English text fragments */}
+          {[
+            { text:"Contention",  x:"15%", y:"30%", size:16, opacity:0.35 },
+            { text:"Argument",    x:"72%", y:"22%", size:14, opacity:0.3 },
+            { text:"Paragraph",   x:"55%", y:"68%", size:13, opacity:0.28 },
+            { text:"Evidence",    x:"28%", y:"72%", size:15, opacity:0.32 },
+            { text:"Analysis",    x:"80%", y:"60%", size:14, opacity:0.3 },
+            { text:"Synthesis",   x:"42%", y:"38%", size:12, opacity:0.25 },
+          ].map(({ text, x, y, size, opacity }) => (
+            <span key={text} style={{ position:"absolute", left:x, top:y, fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:`${size}px`, color:"#fff", opacity, letterSpacing:"0.04em", pointerEvents:"none", userSelect:"none" }}>
+              {text}
+            </span>
+          ))}
+          <div style={{ textAlign:"center", position:"relative", zIndex:1 }}>
+            <div style={{ width:72, height:72, borderRadius:"50%", background:"rgba(255,255,255,0.2)", backdropFilter:"blur(12px)", border:"1.5px solid rgba(255,255,255,0.4)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 14px" }}>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 8h20M6 13h14M6 18h18M6 23h10" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
+            </div>
+            <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:15, color:"rgba(255,255,255,0.9)" }}>VCE English · Text Response</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Two-column layout */}
+      <div style={{ maxWidth:1240, margin:"0 auto", padding:"48px 32px" }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 300px", gap:48, alignItems:"flex-start" }}>
+
+          {/* Main article content */}
+          <article className="article-body">
+
+            <div id="why-matters">
+              <h2>Why Text Response Matters</h2>
+              <p>
+                In VCE English, the Text Response task is one of the most significant assessments you'll face. It tests not only your understanding of the text but your ability to construct a clear, persuasive, and sophisticated argument. This isn't just about summarising a plot — it's about demonstrating critical thinking.
+              </p>
+              <p>
+                Students who perform at the highest level understand that Text Response rewards those who can <strong>engage analytically</strong> with language, construct a nuanced contention, and sustain that argument with precision throughout their essay. This guide gives you the framework to do exactly that.
+              </p>
+              <div className="callout">
+                <p><strong>Key insight:</strong> The difference between a 35 and a 45+ in English rarely comes down to knowing the text better — it comes down to knowing how to argue about it.</p>
+              </div>
+            </div>
+
+            <div id="decode-prompt">
+              <h2>Decoding the Prompt</h2>
+              <p>
+                The most common mistake VCE students make is rushing into their response without fully understanding the prompt. Every single word in a prompt is deliberate. VCAA assessors write prompts to push you toward a specific type of analytical thinking.
+              </p>
+              <h3>Breaking down the prompt</h3>
+              <p>When you first encounter a prompt, work through these steps systematically:</p>
+              <ol>
+                <li><strong>Identify the key terms</strong> — what concepts or ideas are explicitly named?</li>
+                <li><strong>Find the instruction verb</strong> — are you being asked to "discuss", "analyse", "evaluate", or "explore"?</li>
+                <li><strong>Identify what's being asked about</strong> — a character, a theme, the author's technique, or a relationship?</li>
+                <li><strong>Consider what's implied</strong> — what assumptions does the prompt make that you can agree with, challenge, or complicate?</li>
+              </ol>
+              <div className="tip">
+                <p><strong>Pro tip:</strong> Spend the first 5 minutes of your exam planning — not writing. Students who plan perform significantly better than those who start writing immediately.</p>
+              </div>
+            </div>
+
+            <div id="build-argument">
+              <h2>Building a Sophisticated Argument</h2>
+              <p>
+                A high-scoring VCE English essay does not simply agree or disagree with the prompt. It engages with the <strong>complexity and nuance</strong> of the text and the ideas the prompt raises. This is what VCAA assessors mean when they describe "sophisticated" argument.
+              </p>
+              <p>
+                Think of your contention as a position paper, not just an opinion. Your contention should reflect an understanding that issues in literature are rarely black and white. Consider how you can:
+              </p>
+              <ul>
+                <li>Acknowledge the most obvious reading before pivoting to your own more complex argument</li>
+                <li>Integrate counterarguments into your essay as a way of strengthening your case</li>
+                <li>Use the author's craft — not just the content — as part of your evidence</li>
+                <li>Show how meaning shifts, evolves, or is complicated across the text</li>
+              </ul>
+              <p>
+                Your introduction should contain a clear, debatable contention — not a statement of fact. If someone could read your contention and say "of course, obviously," it's not analytical enough.
+              </p>
+            </div>
+
+            <div id="essay-structure">
+              <h2>The Perfect Essay Structure</h2>
+              <p>
+                Strong structure is invisible in a great essay — the reader feels the logic flowing naturally. Here is the framework used by students who consistently score in the A range.
+              </p>
+              <h3>Introduction</h3>
+              <p>
+                Open with a short, punchy statement that establishes the context or stakes of your argument. Introduce the text and author. Then deliver your contention clearly. Optionally, preview your main supporting arguments (some assessors prefer this, some don't — check with your teacher).
+              </p>
+              <h3>Body paragraphs (TEEL or similar)</h3>
+              <p>
+                Each body paragraph should advance your argument, not simply describe the text. Use a structure like:
+              </p>
+              <ul>
+                <li><strong>Topic sentence</strong> — your paragraph's argument, linked back to your contention</li>
+                <li><strong>Evidence</strong> — a quotation or specific reference to the text</li>
+                <li><strong>Explanation</strong> — unpacking the language, technique, or significance of the evidence</li>
+                <li><strong>Link</strong> — connecting your analysis back to the broader argument</li>
+              </ul>
+              <h3>Conclusion</h3>
+              <p>
+                Restate your contention in fresh language. Briefly draw together your key arguments. End with a resonant final sentence that elevates your argument to a broader insight about the human experience or the author's purpose.
+              </p>
+            </div>
+
+            <div id="sophistication">
+              <h2>Writing with Sophistication</h2>
+              <p>
+                Vocabulary and sentence variety are two of the fastest ways to elevate your writing. Assessors notice when students write in the same sentence pattern repeatedly — and when they don't. Aim to vary your sentence length: short sentences create emphasis; longer, subordinate-clause sentences demonstrate complexity of thought.
+              </p>
+              <div className="callout">
+                <p><strong>Language to use:</strong> "Furthermore," "This is complicated by…", "It is significant that…", "Conversely,", "The author's deliberate use of… suggests…", "This is emblematic of a broader pattern in which…"</p>
+              </div>
+              <p>
+                Avoid vague language like "shows" or "talks about." Instead, use precise metalanguage: <em>juxtaposes, implies, subverts, reinforces, challenges, interrogates, symbolises, foreshadows</em>.
+              </p>
+              <p>
+                When integrating quotations, embed them into your own sentence rather than floating them alone. For example: Smith's description of the city as <em>"a machine that chewed up dreams"</em> positions the reader to view progress as fundamentally destructive.
+              </p>
+            </div>
+
+            <div id="mistakes">
+              <h2>Common Mistakes to Avoid</h2>
+              <ul>
+                <li><strong>Retelling the plot</strong> — assessors know the text; you don't need to summarise it.</li>
+                <li><strong>Restating the prompt</strong> as your contention rather than making an original argument.</li>
+                <li><strong>Over-quoting</strong> — two to three well-chosen, short quotations per paragraph is usually enough.</li>
+                <li><strong>Ignoring the author</strong> — texts don't "show" things, authors make deliberate choices. Always attribute agency to the author.</li>
+                <li><strong>Writing a "yes/no" contention</strong> — aim for a nuanced position that captures complexity.</li>
+                <li><strong>Rushing the introduction</strong> — your first paragraph sets the tone for everything. Give it time.</li>
+              </ul>
+            </div>
+
+            <div id="action-plan">
+              <h2>Your Action Plan</h2>
+              <p>
+                Knowing the strategies is only half the battle. The other half is deliberate practice. Here's how to put this into action before your exam:
+              </p>
+              <ol>
+                <li><strong>Practise decoding prompts</strong> — take 20 old VCAA prompts and, without writing the essay, write a contention and three topic sentences for each. This builds analytical muscle fast.</li>
+                <li><strong>Annotate for technique</strong> — re-read your text looking for metalanguage opportunities: symbols, motifs, contrast, irony, tone shifts.</li>
+                <li><strong>Write timed paragraphs</strong> — practise writing a single body paragraph in 12 minutes. Focus on integrating evidence smoothly.</li>
+                <li><strong>Seek feedback</strong> — have a teacher or peer read your introductions specifically and give targeted feedback on your contention.</li>
+                <li><strong>Use RevisionOnline practice exams</strong> — simulate exam conditions with timed practice. Review the model answers and examiner comments to understand what assessors reward.</li>
+              </ol>
+              <div className="tip">
+                <p><strong>Remember:</strong> The best preparation is writing, reviewing, and refining. Every essay you complete under timed conditions is an investment in your final result.</p>
+              </div>
+              <p>
+                You have everything you need to succeed in VCE English. The framework is here. Now it's time to practise.
+              </p>
+            </div>
+
+          </article>
+
+          {/* Sidebar */}
+          <aside style={{ position:"sticky", top:80 }}>
+            <TableOfContents activeSection={activeSection} />
+            <AuthorCard />
+            <ShareCard />
+          </aside>
+        </div>
+      </div>
+
+      {/* Related articles */}
+      <div style={{ background:"#fff", borderTop:"1px solid #e7e5e4", padding:"56px 32px" }}>
+        <div style={{ maxWidth:1240, margin:"0 auto" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:32 }}>
+            <h2 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:22, color:"#1c1917" }}>Related Articles</h2>
+            <div style={{ flex:1, height:1, background:"#e7e5e4" }} />
+            <a href="blog.html" style={{ display:"flex", alignItems:"center", gap:6, fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:"#783cf0", whiteSpace:"nowrap" }}>
+              View all
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#783cf0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </a>
+          </div>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24 }}>
+            {RELATED.map((article, i) => <RelatedCard key={i} article={article} />)}
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +12,7 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
+    /* ── Design tokens ─────────────────────────────────────── */
     :root {
       --color-stone-50:#f8f8f6; --color-stone-100:#f4f4f1; --color-stone-200:#e7e5e4;
       --color-stone-300:#d6d3d1; --color-stone-400:#a6a09b; --color-stone-500:#79716b;
@@ -21,11 +22,12 @@
       --color-neutral-400:#a1a1a1; --color-neutral-500:#737373; --color-neutral-600:#525252;
       --color-neutral-700:#404040; --color-neutral-800:#262626; --color-neutral-900:#171717;
       --color-neutral-950:#0a0a0a;
-      --color-blue-violet-100:#dfe8ff; --color-blue-violet-200:#c5d5ff; --color-blue-violet-300:#a1b8ff;
-      --color-blue-violet-400:#7c91fd; --color-blue-violet-500:#5967f4; --color-blue-violet-600:#4b4ded;
+      --color-blue-violet-100:#dfe8ff; --color-blue-violet-200:#c5d5ff;
+      --color-blue-violet-300:#a1b8ff; --color-blue-violet-400:#7c91fd;
+      --color-blue-violet-500:#5967f4; --color-blue-violet-600:#4b4ded;
       --color-revision-50:#f5f2ff; --color-revision-100:#ece8fd; --color-revision-200:#dcd1ff;
-      --color-revision-400:#a280f8; --color-revision-500:#783cf0; --color-revision-600:#7225e6;
-      --color-revision-700:#6727be;
+      --color-revision-400:#a280f8; --color-revision-500:#783cf0;
+      --color-revision-600:#7225e6; --color-revision-700:#6727be;
       --color-emerald-100:#d1faea; --color-emerald-600:#07947a; --color-emerald-700:#057764;
       --color-orange-100:#ffedd4; --color-orange-600:#ea5a0c; --color-orange-700:#c2430c;
       --color-red-500:#ef4444; --color-red-600:#e22c2c;
@@ -38,96 +40,158 @@
       --font-weight-regular:400; --font-weight-medium:500; --font-weight-semibold:600;
       --font-weight-bold:700; --font-weight-extrabold:800;
     }
+
+    /* ── Light / Dark shell vars ───────────────────────────── */
+    :root, [data-theme="light"] {
+      --sh-bg:        #f4f4f1;
+      --sh-sidebar:   #ffffff;
+      --sh-sb-border: #e7e5e4;
+      --sh-card:      #ffffff;
+      --sh-card-bd:   #e7e5e4;
+      --sh-text:      #1c1917;
+      --sh-text-sub:  #79716b;
+      --sh-text-mute: #a6a09b;
+      --sh-nav-text:  #79716b;
+      --sh-tab-bg:    #f4f4f1;
+      --sh-tab-act:   #ffffff;
+      --sh-tab-txt:   #79716b;
+      --sh-tab-atxt:  #1c1917;
+      --sh-code-bg:   #1c1917;
+      --sh-divider:   #f4f4f1;
+      --sh-figma-bg:  #f5f2ff;
+      --sh-figma-bd:  #dcd1ff;
+    }
+    [data-theme="dark"] {
+      --sh-bg:        #0c0a09;
+      --sh-sidebar:   #1c1917;
+      --sh-sb-border: #292524;
+      --sh-card:      #1c1917;
+      --sh-card-bd:   #292524;
+      --sh-text:      #f4f4f1;
+      --sh-text-sub:  #a6a09b;
+      --sh-text-mute: #57534d;
+      --sh-nav-text:  #79716b;
+      --sh-tab-bg:    #292524;
+      --sh-tab-act:   #44403b;
+      --sh-tab-txt:   #79716b;
+      --sh-tab-atxt:  #f4f4f1;
+      --sh-code-bg:   #0c0a09;
+      --sh-divider:   #292524;
+      --sh-figma-bg:  #1c1917;
+      --sh-figma-bd:  #292524;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family-sans); background: #f4f4f1; color: #171719; }
+    body { font-family: var(--font-family-sans); background: var(--sh-bg); color: var(--sh-text); transition: background 0.2s, color 0.2s; }
+
+    /* ── Sidebar ───────────────────────────────────────────── */
     .ds-sidebar {
-      position: fixed; top: 0; left: 0; bottom: 0; width: 220px;
-      background: #fff; border-right: 1px solid #e7e5e4;
+      position: fixed; top: 0; left: 0; bottom: 0; width: 224px;
+      background: var(--sh-sidebar); border-right: 1px solid var(--sh-sb-border);
       display: flex; flex-direction: column; z-index: 100; overflow-y: auto;
+      transition: background 0.2s, border-color 0.2s;
     }
     .ds-nav-item {
       display: block; padding: 7px 20px; font-size: 13px; font-weight: 500;
-      color: #79716b; text-decoration: none; border-radius: 6px; margin: 1px 8px;
+      color: var(--sh-nav-text); border-radius: 6px; margin: 1px 8px;
       cursor: pointer; transition: background 0.15s, color 0.15s;
     }
     .ds-nav-item:hover  { background: #f5f2ff; color: #783cf0; }
     .ds-nav-item.active { background: #f5f2ff; color: #783cf0; font-weight: 700; }
-    .ds-nav-group { padding: 16px 20px 4px; font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em; color: #a6a09b; }
-    .ds-main { margin-left: 220px; padding: 40px 48px 80px; min-height: 100vh; }
+    [data-theme="dark"] .ds-nav-item:hover  { background: #292524; color: #a280f8; }
+    [data-theme="dark"] .ds-nav-item.active { background: #292524; color: #a280f8; }
+    .ds-nav-group {
+      padding: 16px 20px 4px; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--sh-text-mute);
+    }
+
+    /* ── Main ──────────────────────────────────────────────── */
+    .ds-main { margin-left: 224px; padding: 40px 48px 80px; min-height: 100vh; }
     .ds-section { margin-bottom: 56px; }
-    .ds-section-title { font-family: var(--font-family-heading); font-weight: 800; font-size: 22px; color: #1c1917; margin-bottom: 4px; }
-    .ds-section-sub { font-size: 12px; color: #a6a09b; font-family: monospace; margin-bottom: 24px; }
-    .ds-card { background: #fff; border-radius: 14px; padding: 28px 32px; border: 1px solid #e7e5e4; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-    .swatch { width: 56px; height: 40px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.06); flex-shrink: 0; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; }
-    .swatch:hover { transform: scale(1.08); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
-    /* Code block */
-    .code-block { background: #1c1917; border-radius: 10px; padding: 20px 24px; overflow-x: auto; position: relative; }
-    .code-block pre { font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; color: #e7e5e4; white-space: pre; }
-    .code-block .c-prop { color: #a280f8; }
-    .code-block .c-val  { color: #31d0aa; }
-    .code-block .c-str  { color: #fbbf24; }
-    .code-block .c-cmt  { color: #57534d; font-style: italic; }
-    .code-block .c-sel  { color: #7c91fd; }
-    /* Tabs */
-    .tab-bar { display: flex; gap: 2px; background: #f4f4f1; border-radius: 8px; padding: 3px; margin-bottom: 20px; width: fit-content; }
-    .tab-btn { padding: 6px 16px; border-radius: 6px; border: none; background: transparent; font-family: 'Inter',sans-serif; font-size: 13px; font-weight: 500; color: #79716b; cursor: pointer; transition: all 0.15s; }
-    .tab-btn.active { background: #fff; color: #1c1917; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    /* Usage note */
-    .usage-block { display: flex; flex-direction: column; gap: 14px; }
-    .usage-item { display: flex; gap: 12px; align-items: flex-start; }
-    .usage-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-    .usage-text { font-size: 14px; line-height: 1.6; color: #57534d; }
-    .usage-text strong { color: #1c1917; font-weight: 600; }
-    /* Copy toast */
-    .copy-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #1c1917; color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'Inter',sans-serif; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 9999; pointer-events: none; transition: opacity 0.2s; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+    .ds-section-title {
+      font-family: var(--font-family-heading); font-weight: 800; font-size: 22px;
+      color: var(--sh-text); margin-bottom: 4px;
+    }
+    .ds-section-sub { font-size: 12px; color: var(--sh-text-mute); font-family: monospace; margin-bottom: 24px; }
+    .ds-card {
+      background: var(--sh-card); border-radius: 14px; padding: 28px 32px;
+      border: 1px solid var(--sh-card-bd); box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .swatch { width:56px; height:40px; border-radius:6px; border:1px solid rgba(0,0,0,0.06); flex-shrink:0; cursor:pointer; transition:transform 0.1s, box-shadow 0.1s; }
+    .swatch:hover { transform:scale(1.08); box-shadow:0 4px 12px rgba(0,0,0,0.12); }
+
+    /* ── Code block ────────────────────────────────────────── */
+    .code-block {
+      background: var(--sh-code-bg); border-radius: 10px; padding: 20px 24px;
+      overflow-x: auto; position: relative; border: 1px solid var(--sh-sb-border);
+    }
+    .code-block pre { font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.7; color:#e7e5e4; white-space:pre; }
+
+    /* ── Tabs ──────────────────────────────────────────────── */
+    .tab-bar { display:flex; gap:2px; background:var(--sh-tab-bg); border-radius:8px; padding:3px; margin-bottom:20px; width:fit-content; transition:background 0.2s; }
+    .tab-btn { padding:6px 16px; border-radius:6px; border:none; background:transparent; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; color:var(--sh-tab-txt); cursor:pointer; transition:all 0.15s; }
+    .tab-btn.active { background:var(--sh-tab-act); color:var(--sh-tab-atxt); font-weight:600; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+
+    /* ── Usage block ───────────────────────────────────────── */
+    .usage-block { display:flex; flex-direction:column; gap:14px; }
+    .usage-item  { display:flex; gap:12px; align-items:flex-start; }
+    .usage-dot   { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+    .usage-text  { font-size:14px; line-height:1.6; color:var(--sh-text-sub); }
+    .usage-text strong { color:var(--sh-text); font-weight:600; }
+
+    /* ── Toast ─────────────────────────────────────────────── */
+    .copy-toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%); background:#1c1917; color:#fff; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:500; font-family:'Inter',sans-serif; box-shadow:0 4px 16px rgba(0,0,0,0.2); z-index:9999; pointer-events:none; transition:opacity 0.2s; white-space:nowrap; }
+
+    /* ── Scrollbar ─────────────────────────────────────────── */
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:#d6d3d1; border-radius:3px; }
+    [data-theme="dark"] ::-webkit-scrollbar-thumb { background:#44403b; }
   </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, createContext, useContext } = React;
 
-/* ── Global copy helper ─────────────────────────────────────────── */
+/* ── Theme context ──────────────────────────────────────────────── */
+const ThemeCtx = createContext("light");
+
+/* ── Global copy ────────────────────────────────────────────────── */
 let _setToast = null;
 function useCopy() {
-  const copy = useCallback((text, label) => {
-    navigator.clipboard.writeText(text).then(() => {
-      if (_setToast) _setToast(label || text);
-    });
+  return useCallback((text, label) => {
+    navigator.clipboard.writeText(text).then(() => { if (_setToast) _setToast(label || text); });
   }, []);
-  return copy;
 }
 
-/* ── Icons ───────────────────────────────────────────────────────── */
+/* ── Icons ──────────────────────────────────────────────────────── */
 const IconPlus   = ({ color="#fff" }) => <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2.667v10.666M2.667 8h10.666" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>;
 const IconInvite = ({ color="#fff" }) => <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="1.667" y="3.333" width="16.666" height="13.334" rx="1.667" stroke={color} strokeWidth="1.5"/><path d="M1.667 5l8.333 5.833L18.333 5" stroke={color} strokeWidth="1.5" strokeLinecap="round"/></svg>;
 const IconBin    = ({ color="#36332f" }) => <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2.5 5h15M6.667 5V3.333a1.667 1.667 0 0 1 1.666-1.666h3.334a1.667 1.667 0 0 1 1.666 1.666V5m2.5 0-.833 11.667A1.667 1.667 0 0 1 13.333 18H6.667A1.667 1.667 0 0 1 5 16.667L4.167 5h11.666Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>;
-const IconCheck  = () => <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+const IconCheck  = ({ color="#fff" }) => <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5 6.5-7" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 const IconCopy   = ({ color="#a6a09b" }) => <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke={color} strokeWidth="1.3"/><path d="M2 10V2.5A.5.5 0 0 1 2.5 2H10" stroke={color} strokeWidth="1.3" strokeLinecap="round"/></svg>;
+const IconFigma  = () => <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5.333" height="5.333" rx="2.667" fill="#FF7262"/><rect x="2" y="8.667" width="5.333" height="5.333" rx="2.667" fill="#19BCFE"/><rect x="8.667" y="2" width="5.333" height="5.333" rx="2.667" fill="#FF3D00"/><circle cx="11.333" cy="8" r="2.667" fill="#1ABCFE"/><rect x="8.667" y="8.667" width="5.333" height="5.333" rx="2.667" fill="#0ACF83"/></svg>;
+const IconSun    = () => <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5"/><path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.07 1.07M11.53 11.53l1.07 1.07M12.6 3.4l-1.07 1.07M4.47 11.53l-1.07 1.07" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>;
+const IconMoon   = () => <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 10A6 6 0 0 1 6 2.5 5.5 5.5 0 1 0 13.5 10z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>;
+const IconLink   = () => <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M5 2H2.5A.5.5 0 0 0 2 2.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V7M7.5 2H10m0 0v2.5M10 2 5.5 6.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>;
 
-/* ── Shared: Code block ──────────────────────────────────────────── */
+/* ── Code block ─────────────────────────────────────────────────── */
 function CodeBlock({ code }) {
   const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const handle = () => { navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 2000); };
   return (
     <div className="code-block">
-      <button onClick={handleCopy} style={{ position:"absolute", top:12, right:12, display:"flex", alignItems:"center", gap:5, padding:"5px 10px", borderRadius:6, background:copied?"#31d0aa22":"rgba(255,255,255,0.08)", border:`1px solid ${copied?"#31d0aa":"rgba(255,255,255,0.1)"}`, cursor:"pointer", color:copied?"#31d0aa":"#a6a09b", fontFamily:"Inter,sans-serif", fontSize:12, fontWeight:500, transition:"all 0.15s" }}>
-        {copied ? <><IconCheck /><span>Copied!</span></> : <><IconCopy color="#a6a09b" /><span>Copy</span></>}
+      <button onClick={handle} style={{ position:"absolute", top:12, right:12, display:"flex", alignItems:"center", gap:5, padding:"5px 10px", borderRadius:6, background:copied?"rgba(49,208,170,0.15)":"rgba(255,255,255,0.08)", border:`1px solid ${copied?"#31d0aa":"rgba(255,255,255,0.1)"}`, cursor:"pointer", color:copied?"#31d0aa":"#a6a09b", fontFamily:"Inter,sans-serif", fontSize:12, fontWeight:500, transition:"all 0.15s" }}>
+        {copied ? <><IconCheck color="#31d0aa" /><span>Copied!</span></> : <><IconCopy /><span>Copy</span></>}
       </button>
       <pre>{code}</pre>
     </div>
   );
 }
 
-/* ── Shared: Tab bar ─────────────────────────────────────────────── */
+/* ── Tabs ───────────────────────────────────────────────────────── */
 function Tabs({ tabs, active, onChange }) {
   return (
     <div className="tab-bar">
@@ -136,104 +200,94 @@ function Tabs({ tabs, active, onChange }) {
   );
 }
 
-/* ── Shared: Section wrapper ─────────────────────────────────────── */
-function ComponentSection({ label, preview, code, usage }) {
+/* ── Metadata badge ─────────────────────────────────────────────── */
+function MetaBadge({ created, updated }) {
+  const theme = useContext(ThemeCtx);
+  const dim = theme === "dark" ? "#44403b" : "#e7e5e4";
+  const txt = theme === "dark" ? "#79716b" : "#a6a09b";
+  return (
+    <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:20 }}>
+      <span style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"3px 10px", borderRadius:6, background:dim, fontFamily:"Inter,sans-serif", fontSize:11, color:txt }}>
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="2" width="9" height="8" rx="1.5" stroke={txt} strokeWidth="1.2"/><path d="M3.5 1v2M7.5 1v2M1 5h9" stroke={txt} strokeWidth="1.2" strokeLinecap="round"/></svg>
+        Created {created}
+      </span>
+      <span style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"3px 10px", borderRadius:6, background:dim, fontFamily:"Inter,sans-serif", fontSize:11, color:txt }}>
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5a4 4 0 1 0 4-4 4 4 0 0 0-3.1 1.5L1 2" stroke={txt} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><path d="M5.5 3.5v2l1.5 1" stroke={txt} strokeWidth="1.2" strokeLinecap="round"/></svg>
+        Updated {updated}
+      </span>
+    </div>
+  );
+}
+
+/* ── Component section ──────────────────────────────────────────── */
+function ComponentSection({ label, preview, code, usage, created, updated }) {
   const [tab, setTab] = useState("Preview");
-  const tabs = ["Preview","Code",...(usage?"Usage":[])].flat();
+  const tabs = ["Preview","Code",...(usage?["Usage"]:[])];
   return (
     <div>
-      <div style={{ fontFamily:"monospace", fontSize:11, color:"#a6a09b", marginBottom:12, fontWeight:700 }}>{label}</div>
+      <div style={{ fontFamily:"monospace", fontSize:11, color:"var(--sh-text-mute)", marginBottom:8, fontWeight:700 }}>{label}</div>
+      {(created || updated) && (
+        <MetaBadge created={created || "—"} updated={updated || "—"} />
+      )}
       <Tabs tabs={tabs} active={tab} onChange={setTab} />
       {tab === "Preview" && <div className="ds-card">{preview}</div>}
       {tab === "Code"    && <CodeBlock code={code} />}
-      {tab === "Usage"   && usage && (
-        <div className="ds-card">
-          <div className="usage-block">{usage}</div>
-        </div>
-      )}
+      {tab === "Usage"   && usage && <div className="ds-card"><div className="usage-block">{usage}</div></div>}
     </div>
   );
 }
 
-/* ── Button Components ───────────────────────────────────────────── */
+/* ── Button components ──────────────────────────────────────────── */
 function BtnPrimary({ state="default" }) {
   const bg = { default:"#783cf0", hover:"#7225e6", focus:"#7225e6", press:"#6727be", disabled:"#dcd1ff" };
-  const textColor = state==="disabled"?"#a280f8":"#fff";
-  const shadow = state!=="disabled"?"0px 6px 2px -4px rgba(14,14,44,0.1)":"none";
-  const ring = state==="focus"?"0 0 0 3px #f5f2ff":"none";
-  return (
-    <div style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"14px 16px", borderRadius:60, background:bg[state], boxShadow:`${shadow}${ring!=="none"?", "+ring:""}`, cursor:"pointer" }}>
-      <IconPlus color={textColor} />
-      <span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, lineHeight:1.34, color:textColor, whiteSpace:"nowrap" }}>Create Exam</span>
-    </div>
-  );
+  const tc = state==="disabled"?"#a280f8":"#fff";
+  const sh = state!=="disabled"?"0px 6px 2px -4px rgba(14,14,44,0.1)":"none";
+  const rg = state==="focus"?"0 0 0 3px #f5f2ff":"none";
+  return <div style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"14px 16px", borderRadius:60, background:bg[state], boxShadow:`${sh}${rg!=="none"?", "+rg:""}`, cursor:"pointer" }}><IconPlus color={tc}/><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:tc, whiteSpace:"nowrap" }}>Create Exam</span></div>;
 }
 function BtnSecondary({ state="default" }) {
   const base = { display:"inline-flex", alignItems:"center", gap:6, padding:"14px 16px", borderRadius:60, width:125, justifyContent:"center", cursor:"pointer" };
-  if (state==="disabled") return <div style={{ ...base, background:"#e7e5e4" }}><IconInvite color="#a6a09b" /><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, lineHeight:1.34, color:"#a6a09b", whiteSpace:"nowrap" }}>Invite</span></div>;
-  const bgMap = { default:"#44403b", hover:"#292524", focus:"#292524", press:"#1c1917" };
-  const ring = state==="focus"?", 0 0 0 3px #fff":"";
-  return <div style={{ ...base, background:`linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)), ${bgMap[state]}`, boxShadow:`0px 6px 2px -4px rgba(14,14,44,0.1)${ring}` }}><IconInvite color="#fff" /><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, lineHeight:1.34, color:"#fff", whiteSpace:"nowrap" }}>Invite</span></div>;
+  if (state==="disabled") return <div style={{ ...base, background:"#e7e5e4" }}><IconInvite color="#a6a09b"/><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#a6a09b", whiteSpace:"nowrap" }}>Invite</span></div>;
+  const bgM = { default:"#44403b", hover:"#292524", focus:"#292524", press:"#1c1917" };
+  return <div style={{ ...base, background:`linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)),${bgM[state]}`, boxShadow:`0px 6px 2px -4px rgba(14,14,44,0.1)${state==="focus"?", 0 0 0 3px #fff":""}` }}><IconInvite/><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#fff", whiteSpace:"nowrap" }}>Invite</span></div>;
 }
 function BtnTertiary({ state="default" }) {
   const base = { display:"inline-flex", alignItems:"center", gap:6, padding:"14px 16px", borderRadius:60, width:125, justifyContent:"center", cursor:"pointer" };
-  if (state==="disabled") return <div style={{ ...base, border:"1px solid #a6a09b" }}><IconBin color="#a6a09b" /><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, lineHeight:1.34, color:"#a6a09b", whiteSpace:"nowrap" }}>Delete</span></div>;
-  const bgMap = { default:"transparent", hover:"#fff", focus:"#fff", press:"#e5e5e5" };
-  const ring = state==="focus"?", 0 0 0 3px #36332f":"";
-  return <div style={{ ...base, border:"1px solid #36332f", background:bgMap[state], boxShadow:ring?`inset 0 0 0 0 transparent${ring}`:"none" }}><IconBin color="#36332f" /><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, lineHeight:1.34, color:"#36332f", whiteSpace:"nowrap" }}>Delete</span></div>;
+  if (state==="disabled") return <div style={{ ...base, border:"1px solid #a6a09b" }}><IconBin color="#a6a09b"/><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#a6a09b", whiteSpace:"nowrap" }}>Delete</span></div>;
+  const bgM = { default:"transparent", hover:"#fff", focus:"#fff", press:"#e5e5e5" };
+  return <div style={{ ...base, border:"1px solid #36332f", background:bgM[state], boxShadow:state==="focus"?"inset 0 0 0 0 transparent, 0 0 0 3px #36332f":"none" }}><IconBin/><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#36332f", whiteSpace:"nowrap" }}>Delete</span></div>;
 }
-function BtnExam({ state="default" }) {
-  const cfg = {
-    default: { bg:"rgba(255,255,255,0.6)", border:"none",             shadow:"0 0 16px 0 rgba(0,0,0,0.12)" },
-    hover:   { bg:"rgba(236,232,253,0.6)", border:"none",             shadow:"0 0 16px 0 rgba(147,98,243,0.24)" },
-    focus:   { bg:"rgba(236,232,253,0.6)", border:"1.4px solid #783cf0", shadow:"0 0 16px 0 rgba(147,98,243,0.24)" },
-    press:   { bg:"rgba(220,209,255,0.6)", border:"none",             shadow:"0 0 16px 0 rgba(147,98,243,0.24)" },
-  };
-  const c = cfg[state];
-  return <div style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", padding:"10px 16px", borderRadius:60, background:c.bg, border:c.border, boxShadow:c.shadow, cursor:"pointer" }}><span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, lineHeight:1.34, color:"#783cf0", whiteSpace:"nowrap" }}>Add Question</span></div>;
-}
-function BtnSmall() {
-  return <div style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", padding:"4px 8px", borderRadius:8, background:"#e7e5e4", cursor:"pointer" }}><span style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, lineHeight:1.34, color:"#36332f", whiteSpace:"nowrap" }}>Invite</span></div>;
-}
-
-/* ── Toggle / Checkbox ───────────────────────────────────────────── */
 function Toggle({ initialOn=false }) {
   const [on, setOn] = useState(initialOn);
-  return <div onClick={() => setOn(!on)} style={{ position:"relative", width:72, height:40, borderRadius:32, background:on?"#31d0aa":"#ecf1f4", boxShadow:"inset 0px 2px 2px -1px rgba(74,74,104,0.1)", transition:"background 0.2s", cursor:"pointer" }}><div style={{ position:"absolute", top:4, left:on?36:4, width:32, height:32, borderRadius:"50%", background:"#fff", boxShadow:"0px 5.5px 5px -3px rgba(14,14,44,0.2)", transition:"left 0.2s" }} /></div>;
+  return <div onClick={() => setOn(!on)} style={{ position:"relative", width:72, height:40, borderRadius:32, background:on?"#31d0aa":"#ecf1f4", boxShadow:"inset 0px 2px 2px -1px rgba(74,74,104,0.1)", transition:"background 0.2s", cursor:"pointer" }}><div style={{ position:"absolute", top:4, left:on?36:4, width:32, height:32, borderRadius:"50%", background:"#fff", boxShadow:"0px 5.5px 5px -3px rgba(14,14,44,0.2)", transition:"left 0.2s" }}/></div>;
 }
 function Checkbox({ initialOn=false }) {
   const [on, setOn] = useState(initialOn);
-  return <div onClick={() => setOn(!on)} style={{ width:32, height:32, borderRadius:8, background:on?"#31d0aa":"#ecf1f4", boxShadow:"inset 0px 2px 2px -1px rgba(74,74,104,0.1)", transition:"background 0.2s", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>{on && <IconCheck />}</div>;
+  return <div onClick={() => setOn(!on)} style={{ width:32, height:32, borderRadius:8, background:on?"#31d0aa":"#ecf1f4", boxShadow:"inset 0px 2px 2px -1px rgba(74,74,104,0.1)", transition:"background 0.2s", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>{on && <IconCheck/>}</div>;
 }
 
-/* ── Color swatch ────────────────────────────────────────────────── */
+/* ── Color swatch ───────────────────────────────────────────────── */
 function ColorSwatch({ shade, hex, cssVar }) {
   const copy = useCopy();
-  const [hovered, setHovered] = useState(false);
+  const [hov, setHov] = useState(false);
+  const theme = useContext(ThemeCtx);
+  const metaColor = theme === "dark" ? "#57534d" : "#a6a09b";
+  const varColor  = theme === "dark" ? "#44403b" : "#d6d3d1";
   return (
     <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
-      <div
-        className="swatch"
-        style={{ background:hex, position:"relative" }}
-        title={`Click to copy ${hex}`}
+      <div className="swatch" style={{ background:hex, position:"relative" }} title={`Click to copy ${hex}`}
         onClick={() => copy(hex, `Copied ${hex}`)}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        {hovered && (
-          <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(0,0,0,0.25)", borderRadius:6 }}>
-            <IconCopy color="#fff" />
-          </div>
-        )}
+        onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>
+        {hov && <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(0,0,0,0.25)", borderRadius:6 }}><IconCopy color="#fff"/></div>}
       </div>
-      <span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>{shade}</span>
-      <span style={{ fontFamily:"monospace", fontSize:9, color:"#d6d3d1", cursor:"pointer" }} onClick={() => copy(hex, `Copied ${hex}`)}>{hex}</span>
-      {cssVar && <span style={{ fontFamily:"monospace", fontSize:8, color:"#e7e5e4", cursor:"pointer" }} onClick={() => copy(`var(${cssVar})`, `Copied var(${cssVar})`)} title="Click to copy CSS var">{cssVar}</span>}
+      <span style={{ fontFamily:"monospace", fontSize:10, color:metaColor }}>{shade}</span>
+      <span style={{ fontFamily:"monospace", fontSize:9, color:metaColor, cursor:"pointer" }} onClick={() => copy(hex, `Copied ${hex}`)}>{hex}</span>
+      {cssVar && <span style={{ fontFamily:"monospace", fontSize:8, color:varColor, cursor:"pointer" }} onClick={() => copy(`var(${cssVar})`, `Copied var(${cssVar})`)} title="Copy CSS var">{cssVar}</span>}
     </div>
   );
 }
 
-/* ── Data ────────────────────────────────────────────────────────── */
+/* ── Data ───────────────────────────────────────────────────────── */
 const palettes = [
   { name:"Stone",       swatches:[{s:"50",c:"#f8f8f6",v:"--color-stone-50"},{s:"100",c:"#f4f4f1",v:"--color-stone-100"},{s:"200",c:"#e7e5e4",v:"--color-stone-200"},{s:"300",c:"#d6d3d1",v:"--color-stone-300"},{s:"400",c:"#a6a09b",v:"--color-stone-400"},{s:"500",c:"#79716b",v:"--color-stone-500"},{s:"600",c:"#57534d",v:"--color-stone-600"},{s:"700",c:"#44403b",v:"--color-stone-700"},{s:"800",c:"#292524",v:"--color-stone-800"},{s:"900",c:"#1c1917",v:"--color-stone-900"},{s:"950",c:"#0c0a09",v:"--color-stone-950"}] },
   { name:"Neutral",     swatches:[{s:"100",c:"#f5f5f5",v:"--color-neutral-100"},{s:"200",c:"#e5e5e5",v:"--color-neutral-200"},{s:"300",c:"#d4d4d4",v:"--color-neutral-300"},{s:"400",c:"#a1a1a1",v:"--color-neutral-400"},{s:"500",c:"#737373",v:"--color-neutral-500"},{s:"600",c:"#525252",v:"--color-neutral-600"},{s:"700",c:"#404040",v:"--color-neutral-700"},{s:"800",c:"#262626",v:"--color-neutral-800"},{s:"900",c:"#171717",v:"--color-neutral-900"},{s:"950",c:"#0a0a0a",v:"--color-neutral-950"}] },
@@ -246,24 +300,23 @@ const palettes = [
 ];
 
 const typeStyles = [
-  { name:"h4-bold",           ff:"Nunito,sans-serif", fw:800, fs:28, lh:1,    sample:"The quick brown fox",                          css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold); /* 800 */\nfont-size: var(--type-size-28);   /* 28px */\nline-height: var(--type-line-height-none); /* 1 */" },
-  { name:"h5-bold",           ff:"Nunito,sans-serif", fw:800, fs:24, lh:1,    sample:"The quick brown fox",                          css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold);\nfont-size: var(--type-size-24);   /* 24px */\nline-height: var(--type-line-height-none);" },
-  { name:"h6-bold",           ff:"Nunito,sans-serif", fw:800, fs:20, lh:1,    sample:"The quick brown fox",                          css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold);\nfont-size: var(--type-size-20);   /* 20px */\nline-height: var(--type-line-height-none);" },
-  { name:"subtitle2-medium",  ff:"Inter,sans-serif",  fw:500, fs:18, lh:1,    sample:"The quick brown fox jumps",                    css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-medium);\nfont-size: var(--type-size-18);   /* 18px */\nline-height: var(--type-line-height-none);" },
-  { name:"body1-bold",        ff:"Inter,sans-serif",  fw:700, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog",   css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-bold);\nfont-size: var(--type-size-16);   /* 16px */\nline-height: var(--type-line-height-snug); /* 1.34 */" },
-  { name:"body1-semibold",    ff:"Inter,sans-serif",  fw:600, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog",   css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-semibold);\nfont-size: var(--type-size-16);\nline-height: var(--type-line-height-snug);" },
-  { name:"body1-medium",      ff:"Inter,sans-serif",  fw:500, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog",   css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-medium);\nfont-size: var(--type-size-16);\nline-height: var(--type-line-height-snug);" },
-  { name:"body1-regular",     ff:"Inter,sans-serif",  fw:400, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog",   css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-regular);\nfont-size: var(--type-size-16);\nline-height: var(--type-line-height-snug);" },
-  { name:"body2-medium",      ff:"Inter,sans-serif",  fw:500, fs:14, lh:1.34, sample:"The quick brown fox jumps over the lazy dog",   css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-medium);\nfont-size: var(--type-size-14);   /* 14px */\nline-height: var(--type-line-height-snug);" },
-  { name:"body2-bold-h",      ff:"Nunito,sans-serif", fw:800, fs:14, lh:1.34, sample:"The quick brown fox jumps over the lazy dog",   css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold);\nfont-size: var(--type-size-14);\nline-height: var(--type-line-height-snug);" },
-  { name:"caption1-regular",  ff:"Inter,sans-serif",  fw:400, fs:12, lh:1.44, sample:"Caption text sample — 12px Regular",           css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-regular);\nfont-size: var(--type-size-12);   /* 12px */\nline-height: var(--type-line-height-normal); /* 1.44 */" },
-  { name:"caption1-semibold", ff:"Inter,sans-serif",  fw:600, fs:12, lh:1,    sample:"Caption text sample — 12px Semibold",           css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-semibold);\nfont-size: var(--type-size-12);\nline-height: var(--type-line-height-none);" },
-  { name:"caption2-semibold", ff:"Inter,sans-serif",  fw:600, fs:10, lh:1,    sample:"Caption text sample — 10px Semibold",           css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-semibold);\nfont-size: var(--type-size-10);   /* 10px */\nline-height: var(--type-line-height-none);" },
+  { name:"h4-bold",           ff:"Nunito,sans-serif", fw:800, fs:28, lh:1,    sample:"The quick brown fox",                        css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold); /* 800 */\nfont-size: var(--type-size-28);   /* 28px */\nline-height: var(--type-line-height-none); /* 1 */" },
+  { name:"h5-bold",           ff:"Nunito,sans-serif", fw:800, fs:24, lh:1,    sample:"The quick brown fox",                        css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold);\nfont-size: var(--type-size-24);\nline-height: var(--type-line-height-none);" },
+  { name:"h6-bold",           ff:"Nunito,sans-serif", fw:800, fs:20, lh:1,    sample:"The quick brown fox",                        css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold);\nfont-size: var(--type-size-20);\nline-height: var(--type-line-height-none);" },
+  { name:"subtitle2-medium",  ff:"Inter,sans-serif",  fw:500, fs:18, lh:1,    sample:"The quick brown fox jumps",                  css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-medium);\nfont-size: var(--type-size-18);\nline-height: var(--type-line-height-none);" },
+  { name:"body1-bold",        ff:"Inter,sans-serif",  fw:700, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog", css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-bold);\nfont-size: var(--type-size-16);\nline-height: var(--type-line-height-snug); /* 1.34 */" },
+  { name:"body1-semibold",    ff:"Inter,sans-serif",  fw:600, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog", css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-semibold);\nfont-size: var(--type-size-16);\nline-height: var(--type-line-height-snug);" },
+  { name:"body1-medium",      ff:"Inter,sans-serif",  fw:500, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog", css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-medium);\nfont-size: var(--type-size-16);\nline-height: var(--type-line-height-snug);" },
+  { name:"body1-regular",     ff:"Inter,sans-serif",  fw:400, fs:16, lh:1.34, sample:"The quick brown fox jumps over the lazy dog", css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-regular);\nfont-size: var(--type-size-16);\nline-height: var(--type-line-height-snug);" },
+  { name:"body2-medium",      ff:"Inter,sans-serif",  fw:500, fs:14, lh:1.34, sample:"The quick brown fox jumps over the lazy dog", css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-medium);\nfont-size: var(--type-size-14);\nline-height: var(--type-line-height-snug);" },
+  { name:"body2-bold-h",      ff:"Nunito,sans-serif", fw:800, fs:14, lh:1.34, sample:"The quick brown fox jumps over the lazy dog", css:"font-family: var(--font-family-heading);\nfont-weight: var(--font-weight-extrabold);\nfont-size: var(--type-size-14);\nline-height: var(--type-line-height-snug);" },
+  { name:"caption1-regular",  ff:"Inter,sans-serif",  fw:400, fs:12, lh:1.44, sample:"Caption text sample — 12px Regular",         css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-regular);\nfont-size: var(--type-size-12);\nline-height: var(--type-line-height-normal); /* 1.44 */" },
+  { name:"caption1-semibold", ff:"Inter,sans-serif",  fw:600, fs:12, lh:1,    sample:"Caption text sample — 12px Semibold",        css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-semibold);\nfont-size: var(--type-size-12);\nline-height: var(--type-line-height-none);" },
+  { name:"caption2-semibold", ff:"Inter,sans-serif",  fw:600, fs:10, lh:1,    sample:"Caption text sample — 10px Semibold",        css:"font-family: var(--font-family-sans);\nfont-weight: var(--font-weight-semibold);\nfont-size: var(--type-size-10);\nline-height: var(--type-line-height-none);" },
 ];
 
-/* ── Code strings ────────────────────────────────────────────────── */
 const CODE = {
-btnPrimary: `/* Primary Button */
+btnPrimary:`/* Primary Button */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -281,17 +334,12 @@ btnPrimary: `/* Primary Button */
   font-size: var(--type-size-14);              /* 14px */
   color: #fff;
 }
+.btn-primary:hover    { background: var(--color-revision-600); }
+.btn-primary:focus    { box-shadow: 0 0 0 3px var(--color-revision-50); }
+.btn-primary:active   { background: var(--color-revision-700); }
+.btn-primary:disabled { background: var(--color-revision-200); color: var(--color-revision-400); }`,
 
-.btn-primary:hover  { background: var(--color-revision-600); }
-.btn-primary:focus  { box-shadow: 0 0 0 3px var(--color-revision-50); }
-.btn-primary:active { background: var(--color-revision-700); }
-.btn-primary:disabled {
-  background: var(--color-revision-200);
-  color: var(--color-revision-400);
-  cursor: not-allowed;
-}`,
-
-btnSecondary: `/* Secondary Button */
+btnSecondary:`/* Secondary Button */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -310,19 +358,18 @@ btnSecondary: `/* Secondary Button */
   font-size: var(--type-size-14);
   color: #fff;
 }
-
-.btn-secondary:hover  { background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), var(--color-stone-800); }
-.btn-secondary:focus  { box-shadow: 0 0 0 3px #fff; }
+.btn-secondary:hover    { background: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)), var(--color-stone-800); }
+.btn-secondary:focus    { box-shadow: 0 0 0 3px #fff; }
 .btn-secondary:disabled { background: var(--color-stone-200); color: var(--color-stone-400); }`,
 
-btnTertiary: `/* Tertiary (Outline) Button */
+btnTertiary:`/* Tertiary (Outline) Button */
 .btn-tertiary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 14px 16px;
   border-radius: 60px;
-  border: 1px solid var(--color-stone-700);    /* #44403b */
+  border: 1px solid var(--color-stone-700);
   background: transparent;
   cursor: pointer;
 
@@ -331,13 +378,12 @@ btnTertiary: `/* Tertiary (Outline) Button */
   font-size: var(--type-size-14);
   color: var(--color-stone-700);
 }
-
-.btn-tertiary:hover  { background: #fff; }
-.btn-tertiary:focus  { box-shadow: 0 0 0 3px var(--color-stone-700); }
-.btn-tertiary:active { background: var(--color-neutral-200); }
+.btn-tertiary:hover    { background: #fff; }
+.btn-tertiary:focus    { box-shadow: 0 0 0 3px var(--color-stone-700); }
+.btn-tertiary:active   { background: var(--color-neutral-200); }
 .btn-tertiary:disabled { border-color: var(--color-stone-400); color: var(--color-stone-400); }`,
 
-textfield: `/* Textfield — Default */
+textfield:`/* Textfield */
 .input {
   width: 320px;
   height: 48px;
@@ -354,36 +400,12 @@ textfield: `/* Textfield — Default */
   font-size: var(--type-size-16);
   color: var(--color-stone-900);
 }
+.input:focus  { background: #fff; border: 1px solid var(--color-blue-violet-600); box-shadow: 0 0 0 4px rgba(75,77,237,0.2); }
+.input.valid  { background: #fff; border: 1px solid #31d0aa; box-shadow: 0 0 0 4px rgba(49,208,170,0.2); }
+.input.error  { background: #fff; border: 1px solid #f87171; box-shadow: 0 0 0 4px rgba(237,75,158,0.2); }
+.input:disabled { background: #fafcfe; color: var(--color-stone-400); cursor: not-allowed; }`,
 
-/* Active / focused */
-.input:focus {
-  background: #fff;
-  border: 1px solid var(--color-blue-violet-600); /* #4b4ded */
-  box-shadow: 0 0 0 4px rgba(75,77,237,0.2);
-}
-
-/* Valid */
-.input.valid {
-  background: #fff;
-  border: 1px solid #31d0aa;
-  box-shadow: 0 0 0 4px rgba(49,208,170,0.2);
-}
-
-/* Error */
-.input.error {
-  background: #fff;
-  border: 1px solid #f87171;
-  box-shadow: 0 0 0 4px rgba(237,75,158,0.2);
-}
-
-/* Disabled */
-.input:disabled {
-  background: #fafcfe;
-  color: var(--color-stone-400);
-  cursor: not-allowed;
-}`,
-
-badges: `/* Badge variants */
+badges:`/* Badge variants */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -396,80 +418,36 @@ badges: `/* Badge variants */
   white-space: nowrap;
 }
 
-/* Completed — Emerald */
-.badge-completed  { background: #def7ec; color: #26b88e; }
+.badge-completed { background: #def7ec; color: #26b88e; }  /* Emerald  */
+.badge-cancelled { background: #fde8e8; color: #e57373; }  /* Red      */
+.badge-progress  { background: #edebfe; color: #ba68c8; }  /* Purple   */
+.badge-pending   { background: #fef8eb; color: #f69356; }  /* Orange   */`,
 
-/* Cancelled — Red */
-.badge-cancelled  { background: #fde8e8; color: #e57373; }
+toggle:`/* Toggle switch */
+.toggle { position:relative; width:72px; height:40px; border-radius:32px; background:#ecf1f4; box-shadow:inset 0px 2px 2px -1px rgba(74,74,104,0.1); cursor:pointer; transition:background 0.2s; }
+.toggle.on { background: #31d0aa; }
 
-/* In Progress — Purple */
-.badge-progress   { background: #edebfe; color: #ba68c8; }
+.toggle-thumb { position:absolute; top:4px; left:4px; width:32px; height:32px; border-radius:50%; background:#fff; box-shadow:0px 5.5px 5px -3px rgba(14,14,44,0.2); transition:left 0.2s; }
+.toggle.on .toggle-thumb { left: 36px; }`,
 
-/* Pending — Orange */
-.badge-pending    { background: #fef8eb; color: #f69356; }`,
-
-toggle: `/* Toggle switch */
-.toggle {
-  position: relative;
-  width: 72px;
-  height: 40px;
-  border-radius: 32px;
-  background: #ecf1f4;                          /* off state */
-  box-shadow: inset 0px 2px 2px -1px rgba(74,74,104,0.1);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.toggle.on  { background: #31d0aa; }            /* on state */
-
-.toggle-thumb {
-  position: absolute;
-  top: 4px;
-  left: 4px;                                     /* off: 4px */
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0px 5.5px 5px -3px rgba(14,14,44,0.2);
-  transition: left 0.2s;
-}
-.toggle.on .toggle-thumb { left: 36px; }         /* on: 36px */`,
-
-toast: `/* Toast notification */
+toast:`/* Toast notification */
 .toast {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
   border-radius: 8px;
-
   background: #0e0e2c;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15),
-              0 4px 8px rgba(0,0,0,0.2);
-
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.2);
   font-family: var(--font-family-sans);
   font-weight: var(--font-weight-medium);
   font-size: var(--type-size-16);
   color: #fafcfe;
 }
+.toast-dot { width:16px; height:16px; border-radius:50%; background:#31d0aa; flex-shrink:0; }`,
 
-/* Status dot */
-.toast-dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #31d0aa;                           /* success */
-  flex-shrink: 0;
-}`,
-
-dialog: `/* Dialog / Modal */
-.dialog-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(14,14,44,0.04);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+dialog:`/* Dialog / Modal */
+.dialog-overlay { position:fixed; inset:0; background:rgba(14,14,44,0.04); display:flex; align-items:center; justify-content:center; }
 
 .dialog {
   position: relative;
@@ -477,55 +455,31 @@ dialog: `/* Dialog / Modal */
   border-radius: 12px;
   max-width: 560px;
   width: 100%;
-
   background: #fff;
   border: 1px solid rgba(14,14,44,0.05);
-  box-shadow: 0 20px 36px -8px rgba(14,14,44,0.1),
-              0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: 0 20px 36px -8px rgba(14,14,44,0.1), 0 1px 1px rgba(0,0,0,0.05);
 }
-
-.dialog-title {
-  font-family: var(--font-family-sans);
-  font-weight: var(--font-weight-bold);
-  font-size: 24px;
-  line-height: 1;
-  color: #0e0e2c;
-  letter-spacing: -0.48px;
-  margin-bottom: 12px;
-}
-
-.dialog-body {
-  font-family: var(--font-family-sans);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--type-size-16);
-  line-height: 1.4;
-  color: #4a4a68;
-  margin-bottom: 40px;
-}
-
-.dialog-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}`,
+.dialog-title  { font-family:var(--font-family-sans); font-weight:700; font-size:24px; color:#0e0e2c; letter-spacing:-0.48px; margin-bottom:12px; }
+.dialog-body   { font-family:var(--font-family-sans); font-weight:500; font-size:var(--type-size-16); line-height:1.4; color:#4a4a68; margin-bottom:40px; }
+.dialog-footer { display:flex; align-items:center; justify-content:space-between; }`,
 };
 
-/* ── App ──────────────────────────────────────────────────────────── */
-const sections = ["colors","typography","buttons","textfields","form-controls","badges","feedback","dialog"];
-const sectionLabels = { colors:"Colors", typography:"Typography", buttons:"Buttons", textfields:"Textfields", "form-controls":"Form Controls", badges:"Badges", feedback:"Feedback", dialog:"Dialog" };
+/* ── App ────────────────────────────────────────────────────────── */
+const sections = ["figma","colors","typography","buttons","textfields","form-controls","badges","feedback","dialog"];
+const sectionLabels = { figma:"Figma", colors:"Colors", typography:"Typography", buttons:"Buttons", textfields:"Textfields", "form-controls":"Form Controls", badges:"Badges", feedback:"Feedback", dialog:"Dialog" };
 const btnStates = ["default","focus","hover","press","disabled"];
 
 function App() {
-  const [active, setActive]   = useState("colors");
-  const [toast, setToast]     = useState(null);
-  const [toastVis, setToastVis] = useState(false);
+  const [active, setActive] = useState("figma");
+  const [theme,  setTheme]  = useState("light");
+  const [toast,  setToast]  = useState(null);
+  const [toastV, setToastV] = useState(false);
 
-  // Expose setToast globally
-  _setToast = (msg) => {
-    setToast(msg);
-    setToastVis(true);
-    setTimeout(() => setToastVis(false), 1800);
-  };
+  _setToast = (msg) => { setToast(msg); setToastV(true); setTimeout(() => setToastV(false), 1800); };
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
@@ -536,53 +490,135 @@ function App() {
   }, []);
 
   const copy = useCopy();
+  const isDark = theme === "dark";
+  const mute = isDark ? "#57534d" : "#a6a09b";
+  const divider = isDark ? "#292524" : "#f4f4f1";
 
   return (
-    <>
+    <ThemeCtx.Provider value={theme}>
       {/* Toast */}
-      <div className="copy-toast" style={{ opacity:toastVis?1:0 }}>
-        ✓ {toast}
-      </div>
+      <div className="copy-toast" style={{ opacity:toastV?1:0 }}>✓ {toast}</div>
 
       {/* Sidebar */}
       <aside className="ds-sidebar">
-        <div style={{ padding:"24px 20px 8px" }}>
-          <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:15, color:"#1c1917" }}>RevisionOnline</div>
-          <div style={{ fontSize:11, color:"#a6a09b", marginTop:2, fontFamily:"monospace" }}>Design System v1.0</div>
+        <div style={{ padding:"20px 20px 12px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+          <div>
+            <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:15, color:isDark?"#f4f4f1":"#1c1917" }}>RevisionOnline</div>
+            <div style={{ fontSize:11, color:mute, marginTop:2, fontFamily:"monospace" }}>Design System v1.0</div>
+          </div>
+          {/* Theme toggle */}
+          <button onClick={() => setTheme(isDark?"light":"dark")}
+            style={{ width:32, height:32, borderRadius:8, border:`1px solid ${isDark?"#292524":"#e7e5e4"}`, background:isDark?"#292524":"#f4f4f1", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", color:isDark?"#f4f4f1":"#57534d", flexShrink:0 }}
+            title={isDark?"Switch to Light":"Switch to Dark"}>
+            {isDark ? <IconSun/> : <IconMoon/>}
+          </button>
         </div>
+
         <div className="ds-nav-group">Foundations</div>
         {["colors","typography"].map(id => (
-          <span key={id} className={`ds-nav-item${active===id?" active":""}`} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" })}>{sectionLabels[id]}</span>
+          <span key={id} className={`ds-nav-item${active===id?" active":""}`}
+            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" })}>
+            {sectionLabels[id]}
+          </span>
         ))}
         <div className="ds-nav-group">Components</div>
         {["buttons","textfields","form-controls","badges","feedback","dialog"].map(id => (
-          <span key={id} className={`ds-nav-item${active===id?" active":""}`} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" })}>{sectionLabels[id]}</span>
+          <span key={id} className={`ds-nav-item${active===id?" active":""}`}
+            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" })}>
+            {sectionLabels[id]}
+          </span>
         ))}
-        <div style={{ marginTop:"auto", padding:"16px 20px", borderTop:"1px solid #e7e5e4" }}>
-          <div style={{ fontSize:11, color:"#a6a09b", fontFamily:"monospace" }}>Click swatch → copy hex</div>
-          <div style={{ fontSize:11, color:"#a6a09b", fontFamily:"monospace", marginTop:2 }}>Code tab → copy CSS</div>
+        <div className="ds-nav-group">Resources</div>
+        <span className={`ds-nav-item${active==="figma"?" active":""}`}
+          onClick={() => document.getElementById("figma")?.scrollIntoView({ behavior:"smooth", block:"start" })}>
+          <span style={{ display:"flex", alignItems:"center", gap:6 }}>
+            <IconFigma/> Figma File
+          </span>
+        </span>
+
+        <div style={{ marginTop:"auto", padding:"14px 20px", borderTop:`1px solid ${isDark?"#292524":"#e7e5e4"}` }}>
+          <div style={{ fontSize:11, color:mute, fontFamily:"monospace", lineHeight:1.7 }}>
+            Click swatch → copy hex<br/>
+            Click row → copy CSS<br/>
+            Code tab → copy snippet
+          </div>
         </div>
       </aside>
 
       {/* Main */}
       <main className="ds-main">
         <div style={{ marginBottom:48 }}>
-          <h1 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:32, color:"#1c1917", lineHeight:1 }}>Design System</h1>
-          <p style={{ fontFamily:"monospace", fontSize:12, color:"#a6a09b", marginTop:6 }}>Source: Figma · RevisionOnline · Click any swatch or code block to copy</p>
+          <h1 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:32, color:isDark?"#f4f4f1":"#1c1917", lineHeight:1 }}>Design System</h1>
+          <p style={{ fontFamily:"monospace", fontSize:12, color:mute, marginTop:6 }}>Source: Figma · RevisionOnline · node 2545:14560 · Web & iPad</p>
         </div>
+
+        {/* ── Figma ── */}
+        <section id="figma" className="ds-section">
+          <div className="ds-section-title">Figma Resources</div>
+          <div className="ds-section-sub">Design source of truth — always refer to Figma for final specs</div>
+          <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+            {/* Main Figma file card */}
+            <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
+              {[
+                { title:"Main Design File", desc:"All screens, flows, and components for Web & iPad.", node:"node 2545:14560", updated:"28 Mar 2026", color:"#783cf0", bg: isDark?"#1c1917":"#f5f2ff", bd: isDark?"#292524":"#dcd1ff" },
+                { title:"Design System Library", desc:"Shared component library. Detach to customise.", node:"node 46:556",     updated:"20 Mar 2026", color:"#5967f4", bg: isDark?"#1c1917":"#dfe8ff", bd: isDark?"#292524":"#c5d5ff" },
+                { title:"Icon Set",            desc:"All product icons exported at 20×20 and 24×24.",  node:"node 88:200",     updated:"15 Mar 2026", color:"#07947a", bg: isDark?"#1c1917":"#d1faea", bd: isDark?"#292524":"#a7f3d0" },
+              ].map(f => (
+                <div key={f.title} style={{ flex:1, minWidth:220, background:f.bg, border:`1px solid ${f.bd}`, borderRadius:12, padding:"20px 22px" }}>
+                  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:10 }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                      <IconFigma/>
+                      <span style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:14, color:isDark?"#f4f4f1":"#1c1917" }}>{f.title}</span>
+                    </div>
+                    <a href="#" style={{ display:"flex", alignItems:"center", gap:4, padding:"4px 10px", borderRadius:6, background:f.color, fontFamily:"Inter,sans-serif", fontSize:12, fontWeight:600, color:"#fff", textDecoration:"none" }}>
+                      Open <IconLink/>
+                    </a>
+                  </div>
+                  <p style={{ fontFamily:"Inter,sans-serif", fontSize:13, lineHeight:1.55, color:isDark?"#79716b":"#57534d", marginBottom:12 }}>{f.desc}</p>
+                  <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                    <span style={{ fontFamily:"monospace", fontSize:11, color:f.color, background: isDark?"rgba(255,255,255,0.05)":"rgba(0,0,0,0.06)", padding:"2px 8px", borderRadius:4, cursor:"pointer" }}
+                      onClick={() => copy(f.node, `Copied ${f.node}`)}>
+                      {f.node}
+                    </span>
+                    <span style={{ fontFamily:"monospace", fontSize:11, color:mute }}>Updated {f.updated}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Changelog */}
+            <div className="ds-card">
+              <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:13, color:isDark?"#f4f4f1":"#1c1917", marginBottom:16 }}>Recent Changelog</div>
+              <div style={{ display:"flex", flexDirection:"column", gap:0 }}>
+                {[
+                  { date:"28 Mar 2026", tag:"Buttons",    desc:"Added disabled state tokens for all button variants." },
+                  { date:"20 Mar 2026", tag:"Typography", desc:"Added body1-reading-regular (lh 1.44) for long-form content." },
+                  { date:"15 Mar 2026", tag:"Colors",     desc:"Revised Revision palette — 500 lightened from #6e2ff0 → #783cf0." },
+                  { date:"8 Mar 2026",  tag:"Dialog",     desc:"New 3-button footer pattern for confirmation dialogs." },
+                  { date:"1 Mar 2026",  tag:"Badges",     desc:"Added Pending (orange) badge variant." },
+                ].map((item, i, arr) => (
+                  <div key={i} style={{ display:"flex", gap:16, padding:"12px 0", borderBottom: i < arr.length-1 ? `1px solid ${divider}` : "none", alignItems:"flex-start" }}>
+                    <span style={{ fontFamily:"monospace", fontSize:11, color:mute, whiteSpace:"nowrap", minWidth:88, marginTop:1 }}>{item.date}</span>
+                    <span style={{ display:"inline-flex", padding:"2px 8px", borderRadius:5, background: isDark?"#292524":"#f4f4f1", fontFamily:"Inter,sans-serif", fontSize:11, fontWeight:600, color:isDark?"#a6a09b":"#57534d", whiteSpace:"nowrap", flexShrink:0 }}>{item.tag}</span>
+                    <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:isDark?"#a6a09b":"#57534d", lineHeight:1.5 }}>{item.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ── Colors ── */}
         <section id="colors" className="ds-section">
           <div className="ds-section-title">Colors</div>
           <div className="ds-section-sub">Click swatch → copy hex · Click var name → copy CSS variable</div>
+          <MetaBadge created="1 Feb 2026" updated="15 Mar 2026" />
           <div className="ds-card" style={{ display:"flex", flexDirection:"column", gap:24 }}>
             {palettes.map(p => (
               <div key={p.name}>
-                <div style={{ fontSize:11, fontWeight:700, color:"#79716b", marginBottom:10, fontFamily:"Inter,sans-serif" }}>{p.name}</div>
+                <div style={{ fontSize:11, fontWeight:700, color: isDark?"#79716b":"#79716b", marginBottom:10, fontFamily:"Inter,sans-serif" }}>{p.name}</div>
                 <div style={{ display:"flex", flexWrap:"wrap", gap:12 }}>
-                  {p.swatches.map(({ s, c, v }) => (
-                    <ColorSwatch key={s} shade={s} hex={c} cssVar={v} />
-                  ))}
+                  {p.swatches.map(({ s, c, v }) => <ColorSwatch key={s} shade={s} hex={c} cssVar={v}/>)}
                 </div>
               </div>
             ))}
@@ -592,19 +628,19 @@ function App() {
         {/* ── Typography ── */}
         <section id="typography" className="ds-section">
           <div className="ds-section-title">Typography</div>
-          <div className="ds-section-sub">Inter · Nunito · Click row → copy CSS properties</div>
+          <div className="ds-section-sub">Inter · Nunito · Click any row → copy CSS properties</div>
+          <MetaBadge created="1 Feb 2026" updated="20 Mar 2026" />
           <div className="ds-card" style={{ display:"flex", flexDirection:"column" }}>
             {typeStyles.map((t, i) => (
               <div key={t.name}
                 onClick={() => copy(t.css, `Copied ${t.name}`)}
                 title="Click to copy CSS"
-                style={{ display:"flex", alignItems:"baseline", gap:16, padding:"14px 0", borderBottom:i<typeStyles.length-1?"1px solid #f4f4f1":"none", cursor:"pointer", borderRadius:6, transition:"background 0.1s" }}
-                onMouseEnter={e => e.currentTarget.style.background="#f8f8f6"}
-                onMouseLeave={e => e.currentTarget.style.background="transparent"}
-              >
-                <span style={{ fontFamily:"monospace", fontSize:11, color:"#a6a09b", minWidth:180, flexShrink:0 }}>{t.name}</span>
-                <span style={{ fontFamily:t.ff, fontWeight:t.fw, fontSize:t.fs, lineHeight:t.lh, color:"#1c1917", flex:1 }}>{t.sample}</span>
-                <span style={{ flexShrink:0 }}><IconCopy color="#d6d3d1" /></span>
+                style={{ display:"flex", alignItems:"baseline", gap:16, padding:"14px 0", borderBottom:i<typeStyles.length-1?`1px solid ${divider}`:"none", cursor:"pointer", borderRadius:6, transition:"background 0.1s" }}
+                onMouseEnter={e => e.currentTarget.style.background= isDark?"#292524":"#f8f8f6"}
+                onMouseLeave={e => e.currentTarget.style.background="transparent"}>
+                <span style={{ fontFamily:"monospace", fontSize:11, color:mute, minWidth:180, flexShrink:0 }}>{t.name}</span>
+                <span style={{ fontFamily:t.ff, fontWeight:t.fw, fontSize:t.fs, lineHeight:t.lh, color: isDark?"#f4f4f1":"#1c1917", flex:1 }}>{t.sample}</span>
+                <span style={{ flexShrink:0 }}><IconCopy color={mute}/></span>
               </div>
             ))}
           </div>
@@ -613,52 +649,32 @@ function App() {
         {/* ── Buttons ── */}
         <section id="buttons" className="ds-section">
           <div className="ds-section-title">Buttons</div>
-          <div className="ds-section-sub">4 types × 5 states · Nunito Extrabold 14px</div>
+          <div className="ds-section-sub">4 types × 5 states · Nunito Extrabold 14px · border-radius 60px</div>
+          <MetaBadge created="5 Feb 2026" updated="18 Mar 2026" />
           <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
-
-            <ComponentSection
-              label="primary"
-              preview={
-                <div style={{ display:"flex", gap:0 }}>
-                  <div style={{ paddingRight:16, fontFamily:"monospace", fontSize:10, color:"#a6a09b", writingMode:"vertical-rl", transform:"rotate(180deg)" }}>primary</div>
-                  {btnStates.map(s => <div key={s} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><BtnPrimary state={s} /><span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>{s}</span></div>)}
-                </div>
-              }
+            <ComponentSection label="primary" created="5 Feb 2026" updated="18 Mar 2026"
+              preview={<div style={{ display:"flex", gap:0 }}><div style={{ paddingRight:16, fontFamily:"monospace", fontSize:10, color:mute, writingMode:"vertical-rl", transform:"rotate(180deg)" }}>primary</div>{btnStates.map(s => <div key={s} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><BtnPrimary state={s}/><span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>{s}</span></div>)}</div>}
               code={CODE.btnPrimary}
               usage={[
-                <div key="1" className="usage-item"><div className="usage-dot" style={{ background:"#31d0aa" }}/><div className="usage-text"><strong>Use for:</strong> Primary actions — the single most important action on a page. e.g. "Create Exam", "Submit", "Get started".</div></div>,
-                <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#ef4444" }}/><div className="usage-text"><strong>Don't:</strong> Use multiple Primary buttons in the same view. There should only be one primary CTA per screen.</div></div>,
-                <div key="3" className="usage-item"><div className="usage-dot" style={{ background:"#a6a09b" }}/><div className="usage-text"><strong>Icon:</strong> Optional. Icon should be 16×16, placed to the left of the label.</div></div>,
+                <div key="1" className="usage-item"><div className="usage-dot" style={{ background:"#31d0aa" }}/><div className="usage-text"><strong>Use for:</strong> The single most important action — "Create Exam", "Submit", "Get started". One per view.</div></div>,
+                <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#ef4444" }}/><div className="usage-text"><strong>Don't:</strong> Use multiple Primary buttons in the same view. Dilutes hierarchy.</div></div>,
+                <div key="3" className="usage-item"><div className="usage-dot" style={{ background:"#a6a09b" }}/><div className="usage-text"><strong>Icon:</strong> Optional, 16×16, left of label. Always use <code>IconPlus</code> for create actions.</div></div>,
               ]}
             />
-
-            <ComponentSection
-              label="secondary"
-              preview={
-                <div style={{ display:"flex", gap:0 }}>
-                  <div style={{ paddingRight:16, fontFamily:"monospace", fontSize:10, color:"#a6a09b", writingMode:"vertical-rl", transform:"rotate(180deg)" }}>secondary</div>
-                  {btnStates.map(s => <div key={s} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><BtnSecondary state={s} /><span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>{s}</span></div>)}
-                </div>
-              }
+            <ComponentSection label="secondary" created="5 Feb 2026" updated="18 Mar 2026"
+              preview={<div style={{ display:"flex", gap:0 }}><div style={{ paddingRight:16, fontFamily:"monospace", fontSize:10, color:mute, writingMode:"vertical-rl", transform:"rotate(180deg)" }}>secondary</div>{btnStates.map(s => <div key={s} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><BtnSecondary state={s}/><span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>{s}</span></div>)}</div>}
               code={CODE.btnSecondary}
               usage={[
-                <div key="1" className="usage-item"><div className="usage-dot" style={{ background:"#31d0aa" }}/><div className="usage-text"><strong>Use for:</strong> Secondary actions that complement the primary — e.g. "Invite", "Save draft", "Export".</div></div>,
-                <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#ef4444" }}/><div className="usage-text"><strong>Don't:</strong> Use for destructive actions. Use the Tertiary (outline) button with a warning icon for delete/remove.</div></div>,
+                <div key="1" className="usage-item"><div className="usage-dot" style={{ background:"#31d0aa" }}/><div className="usage-text"><strong>Use for:</strong> Supporting actions alongside a Primary — "Invite", "Save draft", "Export".</div></div>,
+                <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#ef4444" }}/><div className="usage-text"><strong>Don't:</strong> Use for destructive actions. Use Tertiary with a warning icon instead.</div></div>,
               ]}
             />
-
-            <ComponentSection
-              label="tertiary (outline)"
-              preview={
-                <div style={{ display:"flex", gap:0 }}>
-                  <div style={{ paddingRight:16, fontFamily:"monospace", fontSize:10, color:"#a6a09b", writingMode:"vertical-rl", transform:"rotate(180deg)" }}>tertiary</div>
-                  {btnStates.map(s => <div key={s} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><BtnTertiary state={s} /><span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>{s}</span></div>)}
-                </div>
-              }
+            <ComponentSection label="tertiary (outline)" created="5 Feb 2026" updated="18 Mar 2026"
+              preview={<div style={{ display:"flex", gap:0 }}><div style={{ paddingRight:16, fontFamily:"monospace", fontSize:10, color:mute, writingMode:"vertical-rl", transform:"rotate(180deg)" }}>tertiary</div>{btnStates.map(s => <div key={s} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><BtnTertiary state={s}/><span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>{s}</span></div>)}</div>}
               code={CODE.btnTertiary}
               usage={[
                 <div key="1" className="usage-item"><div className="usage-dot" style={{ background:"#31d0aa" }}/><div className="usage-text"><strong>Use for:</strong> Destructive or low-emphasis actions — "Delete", "Remove", "Cancel".</div></div>,
-                <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#a6a09b" }}/><div className="usage-text"><strong>Pair with:</strong> A Primary or Secondary button. Tertiary should not appear alone as the only action.</div></div>,
+                <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#a6a09b" }}/><div className="usage-text"><strong>Pair with:</strong> A Primary or Secondary button. Don't use Tertiary alone as the only CTA.</div></div>,
               ]}
             />
           </div>
@@ -667,109 +683,46 @@ function App() {
         {/* ── Textfields ── */}
         <section id="textfields" className="ds-section">
           <div className="ds-section-title">Textfields</div>
-          <div className="ds-section-sub">Inter Medium 16px · h-48px · rounded-8</div>
-          <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
-            <ComponentSection
-              label="Input states"
-              preview={
-                <div style={{ display:"flex", flexWrap:"wrap", gap:24 }}>
-                  {[
-                    { state:"default",  bg:"#ecf1f4", border:"none",              shadow:"inset 0 2px 2px -1px rgba(74,74,104,0.1)", ph:"Textfield text" },
-                    { state:"active",   bg:"#fff",    border:"1px solid #4b4ded", shadow:"0 0 0 4px rgba(75,77,237,0.2)", ph:"Textfield text" },
-                    { state:"valid",    bg:"#fff",    border:"1px solid #31d0aa", shadow:"0 0 0 4px rgba(49,208,170,0.2)", ph:"email@domain.com" },
-                    { state:"error",    bg:"#fff",    border:"1px solid #f87171", shadow:"0 0 0 4px rgba(237,75,158,0.2)", ph:"email@" },
-                    { state:"disabled", bg:"#fafcfe", border:"none",              shadow:"none", ph:"Textfield text" },
-                  ].map(t => (
-                    <div key={t.state} style={{ display:"flex", flexDirection:"column", gap:8 }}>
-                      <div style={{ width:220, height:48, background:t.bg, border:t.border, boxShadow:t.shadow, borderRadius:8, display:"flex", alignItems:"center", padding:"12px 16px" }}>
-                        <span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:16, color:"#737373" }}>{t.ph}</span>
-                      </div>
-                      <span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>{t.state}</span>
-                    </div>
-                  ))}
+          <div className="ds-section-sub">Inter Medium 16px · h-48px · border-radius 8px</div>
+          <MetaBadge created="8 Feb 2026" updated="12 Mar 2026" />
+          <ComponentSection label="Input states" created="8 Feb 2026" updated="12 Mar 2026"
+            preview={<div style={{ display:"flex", flexWrap:"wrap", gap:24 }}>
+              {[
+                { state:"default",  bg:"#ecf1f4", border:"none",              shadow:"inset 0 2px 2px -1px rgba(74,74,104,0.1)", ph:"Textfield text" },
+                { state:"active",   bg:"#fff",    border:"1px solid #4b4ded", shadow:"0 0 0 4px rgba(75,77,237,0.2)", ph:"Textfield text" },
+                { state:"valid",    bg:"#fff",    border:"1px solid #31d0aa", shadow:"0 0 0 4px rgba(49,208,170,0.2)", ph:"email@domain.com" },
+                { state:"error",    bg:"#fff",    border:"1px solid #f87171", shadow:"0 0 0 4px rgba(237,75,158,0.2)", ph:"email@" },
+                { state:"disabled", bg:"#fafcfe", border:"none",              shadow:"none", ph:"Textfield text" },
+              ].map(t => (
+                <div key={t.state} style={{ display:"flex", flexDirection:"column", gap:8 }}>
+                  <div style={{ width:220, height:48, background:t.bg, border:t.border, boxShadow:t.shadow, borderRadius:8, display:"flex", alignItems:"center", padding:"12px 16px" }}>
+                    <span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:16, color:"#737373" }}>{t.ph}</span>
+                  </div>
+                  <span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>{t.state}</span>
                 </div>
-              }
-              code={CODE.textfield}
-            />
-          </div>
+              ))}
+            </div>}
+            code={CODE.textfield}
+          />
         </section>
 
         {/* ── Form Controls ── */}
         <section id="form-controls" className="ds-section">
           <div className="ds-section-title">Form Controls</div>
-          <div className="ds-section-sub">Toggle · Checkbox · Progress</div>
+          <div className="ds-section-sub">Toggle · Checkbox · Progress bar</div>
+          <MetaBadge created="8 Feb 2026" updated="28 Feb 2026" />
           <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
-            <ComponentSection
-              label="Toggle"
-              preview={
-                <div style={{ display:"flex", gap:24, alignItems:"center" }}>
-                  <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Toggle initialOn={false} /><span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>off</span></div>
-                  <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Toggle initialOn={true} /><span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>on</span></div>
-                </div>
-              }
+            <ComponentSection label="Toggle" created="8 Feb 2026" updated="28 Feb 2026"
+              preview={<div style={{ display:"flex", gap:24 }}><div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Toggle initialOn={false}/><span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>off</span></div><div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Toggle initialOn={true}/><span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>on</span></div></div>}
               code={CODE.toggle}
             />
-            <ComponentSection
-              label="Checkbox"
-              preview={
-                <div style={{ display:"flex", gap:24, alignItems:"center" }}>
-                  <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Checkbox initialOn={false} /><span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>off</span></div>
-                  <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Checkbox initialOn={true} /><span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>on</span></div>
-                </div>
-              }
-              code={`/* Checkbox */
-.checkbox {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: #ecf1f4;
-  box-shadow: inset 0px 2px 2px -1px rgba(74,74,104,0.1);
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.checkbox.checked {
-  background: #31d0aa;
-}`}
+            <ComponentSection label="Checkbox" created="8 Feb 2026" updated="28 Feb 2026"
+              preview={<div style={{ display:"flex", gap:24 }}><div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Checkbox initialOn={false}/><span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>off</span></div><div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}><Checkbox initialOn={true}/><span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>on</span></div></div>}
+              code={`/* Checkbox */\n.checkbox { width:32px; height:32px; border-radius:8px; background:#ecf1f4; box-shadow:inset 0px 2px 2px -1px rgba(74,74,104,0.1); cursor:pointer; transition:background 0.2s; }\n.checkbox.checked { background: #31d0aa; }`}
             />
-            <ComponentSection
-              label="Progress bar"
-              preview={
-                <div style={{ position:"relative", width:280, height:24 }}>
-                  <div style={{ position:"absolute", top:8, left:0, right:0, height:8, borderRadius:8, background:"#ecf1f4", boxShadow:"inset 0 2px 2px -1px rgba(74,74,104,0.1)" }}>
-                    <div style={{ position:"absolute", left:0, top:0, bottom:0, width:"60%", borderRadius:"4px 0 0 4px", background:"#4b4ded" }} />
-                  </div>
-                  <div style={{ position:"absolute", top:0, left:"calc(60% - 12px)", width:24, height:24, borderRadius:"50%", background:"#fff", border:"1px solid rgba(0,0,0,0.1)", boxShadow:"0 5.5px 5px -3px rgba(14,14,44,0.2)" }} />
-                </div>
-              }
-              code={`/* Progress bar */
-.progress-track {
-  position: relative;
-  height: 8px;
-  border-radius: 8px;
-  background: #ecf1f4;
-  box-shadow: inset 0 2px 2px -1px rgba(74,74,104,0.1);
-}
-
-.progress-fill {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  border-radius: 4px 0 0 4px;
-  background: var(--color-blue-violet-600);  /* #4b4ded */
-  transition: width 0.3s ease;
-}
-
-/* Thumb / knob */
-.progress-thumb {
-  position: absolute;
-  top: -8px;  /* (24 - 8) / 2 */
-  transform: translateX(-50%);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 5.5px 5px -3px rgba(14,14,44,0.2);
-}`}
+            <ComponentSection label="Progress bar" created="8 Feb 2026" updated="28 Feb 2026"
+              preview={<div style={{ position:"relative", width:280, height:24 }}><div style={{ position:"absolute", top:8, left:0, right:0, height:8, borderRadius:8, background:"#ecf1f4", boxShadow:"inset 0 2px 2px -1px rgba(74,74,104,0.1)" }}><div style={{ position:"absolute", left:0, top:0, bottom:0, width:"60%", borderRadius:"4px 0 0 4px", background:"#4b4ded" }}/></div><div style={{ position:"absolute", top:0, left:"calc(60% - 12px)", width:24, height:24, borderRadius:"50%", background:"#fff", border:"1px solid rgba(0,0,0,0.1)", boxShadow:"0 5.5px 5px -3px rgba(14,14,44,0.2)" }}/></div>}
+              code={`/* Progress bar */\n.progress-track { height:8px; border-radius:8px; background:#ecf1f4; box-shadow:inset 0 2px 2px -1px rgba(74,74,104,0.1); position:relative; }\n.progress-fill { position:absolute; left:0; top:0; bottom:0; border-radius:4px 0 0 4px; background:var(--color-blue-violet-600); transition:width 0.3s ease; }\n.progress-thumb { position:absolute; top:-8px; transform:translateX(-50%); width:24px; height:24px; border-radius:50%; background:#fff; border:1px solid rgba(0,0,0,0.1); box-shadow:0 5.5px 5px -3px rgba(14,14,44,0.2); }`}
             />
           </div>
         </section>
@@ -777,26 +730,17 @@ function App() {
         {/* ── Badges ── */}
         <section id="badges" className="ds-section">
           <div className="ds-section-title">Badges</div>
-          <div className="ds-section-sub">Inter Medium 12px · px-10 py-2 · rounded-6</div>
-          <ComponentSection
-            label="Status badges"
-            preview={
-              <div style={{ display:"flex", gap:16, flexWrap:"wrap", alignItems:"center" }}>
-                {[
-                  { label:"Completed",   bg:"#def7ec", text:"#26b88e" },
-                  { label:"Cancelled",   bg:"#fde8e8", text:"#e57373" },
-                  { label:"In Progress", bg:"#edebfe", text:"#ba68c8" },
-                  { label:"Pending",     bg:"#fef8eb", text:"#f69356" },
-                ].map((b, i) => (
-                  <div key={i} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}>
-                    <div style={{ background:b.bg, borderRadius:6, padding:"2px 10px" }}>
-                      <span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12, lineHeight:1.5, color:b.text }}>{b.label}</span>
-                    </div>
-                    <span style={{ fontFamily:"monospace", fontSize:10, color:"#a6a09b" }}>{b.text}</span>
-                  </div>
-                ))}
-              </div>
-            }
+          <div className="ds-section-sub">Inter Medium 12px · px-10 py-2 · border-radius 6px</div>
+          <MetaBadge created="10 Feb 2026" updated="5 Mar 2026" />
+          <ComponentSection label="Status badges" created="10 Feb 2026" updated="5 Mar 2026"
+            preview={<div style={{ display:"flex", gap:16, flexWrap:"wrap", alignItems:"center" }}>
+              {[{label:"Completed",bg:"#def7ec",text:"#26b88e"},{label:"Cancelled",bg:"#fde8e8",text:"#e57373"},{label:"In Progress",bg:"#edebfe",text:"#ba68c8"},{label:"Pending",bg:"#fef8eb",text:"#f69356"}].map((b,i) => (
+                <div key={i} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:8 }}>
+                  <div style={{ background:b.bg, borderRadius:6, padding:"2px 10px" }}><span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12, lineHeight:1.5, color:b.text }}>{b.label}</span></div>
+                  <span style={{ fontFamily:"monospace", fontSize:10, color:mute }}>{b.text}</span>
+                </div>
+              ))}
+            </div>}
             code={CODE.badges}
           />
         </section>
@@ -805,50 +749,15 @@ function App() {
         <section id="feedback" className="ds-section">
           <div className="ds-section-title">Feedback</div>
           <div className="ds-section-sub">Toast · Tooltip · Popover</div>
+          <MetaBadge created="12 Feb 2026" updated="8 Mar 2026" />
           <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
-            <ComponentSection
-              label="Toast"
-              preview={
-                <div style={{ display:"inline-flex", alignItems:"center", gap:8, padding:"12px 20px", borderRadius:8, background:"#0e0e2c", boxShadow:"0 1px 2px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.2)" }}>
-                  <div style={{ width:16, height:16, borderRadius:"50%", background:"#31d0aa", flexShrink:0 }} />
-                  <span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:16, color:"#fafcfe", whiteSpace:"nowrap" }}>This is my toast!</span>
-                  <span style={{ color:"#fafcfe", fontSize:12, cursor:"pointer" }}>✕</span>
-                </div>
-              }
+            <ComponentSection label="Toast" created="12 Feb 2026" updated="8 Mar 2026"
+              preview={<div style={{ display:"inline-flex", alignItems:"center", gap:8, padding:"12px 20px", borderRadius:8, background:"#0e0e2c", boxShadow:"0 1px 2px rgba(0,0,0,0.15),0 4px 8px rgba(0,0,0,0.2)" }}><div style={{ width:16, height:16, borderRadius:"50%", background:"#31d0aa", flexShrink:0 }}/><span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:16, color:"#fafcfe", whiteSpace:"nowrap" }}>This is my toast!</span><span style={{ color:"#fafcfe", fontSize:12, cursor:"pointer" }}>✕</span></div>}
               code={CODE.toast}
             />
-            <ComponentSection
-              label="Tooltip"
-              preview={
-                <div style={{ display:"inline-flex", flexDirection:"column", alignItems:"center" }}>
-                  <div style={{ padding:10, borderRadius:8, background:"#0e0e2c" }}>
-                    <span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:"#fafcfe", whiteSpace:"nowrap" }}>Tooltip text</span>
-                  </div>
-                  <div style={{ width:0, height:0, borderLeft:"7px solid transparent", borderRight:"7px solid transparent", borderTop:"8px solid #0e0e2c" }} />
-                </div>
-              }
-              code={`/* Tooltip */
-.tooltip {
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: #0e0e2c;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.2);
-
-  font-family: var(--font-family-sans);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--type-size-14);
-  color: #fafcfe;
-  white-space: nowrap;
-}
-
-/* Arrow — bottom center */
-.tooltip-arrow {
-  width: 0; height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-top: 8px solid #0e0e2c;
-  margin: 0 auto;
-}`}
+            <ComponentSection label="Tooltip" created="12 Feb 2026" updated="8 Mar 2026"
+              preview={<div style={{ display:"inline-flex", flexDirection:"column", alignItems:"center" }}><div style={{ padding:10, borderRadius:8, background:"#0e0e2c" }}><span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:"#fafcfe", whiteSpace:"nowrap" }}>Tooltip text</span></div><div style={{ width:0, height:0, borderLeft:"7px solid transparent", borderRight:"7px solid transparent", borderTop:"8px solid #0e0e2c" }}/></div>}
+              code={`/* Tooltip */\n.tooltip { padding:10px 12px; border-radius:8px; background:#0e0e2c; box-shadow:0 1px 2px rgba(0,0,0,0.15),0 4px 8px rgba(0,0,0,0.2); font-family:var(--font-family-sans); font-weight:500; font-size:var(--type-size-14); color:#fafcfe; }\n.tooltip-arrow { width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-top:8px solid #0e0e2c; margin:0 auto; }`}
             />
           </div>
         </section>
@@ -856,29 +765,21 @@ function App() {
         {/* ── Dialog ── */}
         <section id="dialog" className="ds-section">
           <div className="ds-section-title">Dialog</div>
-          <div className="ds-section-sub">rounded-12 · Inter · 3-button footer</div>
-          <ComponentSection
-            label="Confirmation dialog"
+          <div className="ds-section-sub">border-radius 12px · Inter · 3-button footer</div>
+          <MetaBadge created="15 Feb 2026" updated="20 Mar 2026" />
+          <ComponentSection label="Confirmation dialog" created="15 Feb 2026" updated="20 Mar 2026"
             preview={
               <div style={{ padding:40, borderRadius:12, background:"rgba(14,14,44,0.04)", display:"inline-flex" }}>
-                <div style={{ position:"relative", padding:40, borderRadius:12, background:"#fff", border:"1px solid rgba(14,14,44,0.05)", boxShadow:"0 20px 36px -8px rgba(14,14,44,0.1), 0 1px 1px rgba(0,0,0,0.05)", maxWidth:480 }}>
+                <div style={{ position:"relative", padding:40, borderRadius:12, background:"#fff", border:"1px solid rgba(14,14,44,0.05)", boxShadow:"0 20px 36px -8px rgba(14,14,44,0.1),0 1px 1px rgba(0,0,0,0.05)", maxWidth:480 }}>
                   <button style={{ position:"absolute", top:16, right:16, background:"#efeffd", border:"none", borderRadius:8, padding:"4px 8px", cursor:"pointer", color:"#4b4ded", fontWeight:700, fontSize:14 }}>✕</button>
-                  <div style={{ marginBottom:24 }}>
-                    <h2 style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:24, lineHeight:1, color:"#0e0e2c", letterSpacing:"-0.48px", marginBottom:12 }}>Confirm Action</h2>
-                    <div style={{ height:1, background:"#efeffd" }} />
-                  </div>
+                  <h2 style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:24, color:"#0e0e2c", letterSpacing:"-0.48px", marginBottom:12 }}>Confirm Action</h2>
+                  <div style={{ height:1, background:"#efeffd", marginBottom:24 }}/>
                   <p style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:16, lineHeight:1.4, color:"#4a4a68", marginBottom:40 }}>Are you sure you want to proceed? This action cannot be undone.</p>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-                    <button style={{ padding:"12px 24px", borderRadius:60, border:"1px solid #efeffd", background:"#fff", cursor:"pointer" }}>
-                      <span style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:16, color:"#4b4ded", textTransform:"uppercase", letterSpacing:"0.64px" }}>Close</span>
-                    </button>
+                    <button style={{ padding:"12px 24px", borderRadius:60, border:"1px solid #efeffd", background:"#fff", cursor:"pointer" }}><span style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:16, color:"#4b4ded", textTransform:"uppercase", letterSpacing:"0.64px" }}>Close</span></button>
                     <div style={{ display:"flex", gap:12 }}>
-                      <button style={{ padding:"12px 24px", borderRadius:60, background:"#efeffd", border:"none", cursor:"pointer", boxShadow:"inset 0 -1px 0.5px rgba(14,14,44,0.4)" }}>
-                        <span style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:16, color:"#4b4ded", textTransform:"uppercase", letterSpacing:"0.64px" }}>Secondary</span>
-                      </button>
-                      <button style={{ padding:"12px 24px", borderRadius:60, background:"#783cf0", border:"none", cursor:"pointer", boxShadow:"0 6px 2px -4px rgba(14,14,44,0.1)" }}>
-                        <span style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:16, color:"#fff", textTransform:"uppercase", letterSpacing:"0.64px" }}>Confirm</span>
-                      </button>
+                      <button style={{ padding:"12px 24px", borderRadius:60, background:"#efeffd", border:"none", cursor:"pointer" }}><span style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:16, color:"#4b4ded", textTransform:"uppercase", letterSpacing:"0.64px" }}>Secondary</span></button>
+                      <button style={{ padding:"12px 24px", borderRadius:60, background:"#783cf0", border:"none", cursor:"pointer" }}><span style={{ fontFamily:"Inter,sans-serif", fontWeight:700, fontSize:16, color:"#fff", textTransform:"uppercase", letterSpacing:"0.64px" }}>Confirm</span></button>
                     </div>
                   </div>
                 </div>
@@ -886,14 +787,14 @@ function App() {
             }
             code={CODE.dialog}
             usage={[
-              <div key="1" className="usage-item"><div className="usage-dot" style={{ background:"#31d0aa" }}/><div className="usage-text"><strong>Use for:</strong> Confirming destructive or irreversible actions. Always require explicit user confirmation.</div></div>,
-              <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#ef4444" }}/><div className="usage-text"><strong>Don't:</strong> Use dialogs for simple notifications. Use Toast for non-blocking feedback instead.</div></div>,
-              <div key="3" className="usage-item"><div className="usage-dot" style={{ background:"#a6a09b" }}/><div className="usage-text"><strong>Button order:</strong> Close (left) · Secondary action (right-secondary) · Confirm/Primary (right-most).</div></div>,
+              <div key="1" className="usage-item"><div className="usage-dot" style={{ background:"#31d0aa" }}/><div className="usage-text"><strong>Use for:</strong> Confirming destructive or irreversible actions. Always require explicit confirmation.</div></div>,
+              <div key="2" className="usage-item"><div className="usage-dot" style={{ background:"#ef4444" }}/><div className="usage-text"><strong>Don't:</strong> Use dialogs for simple notifications. Use Toast for non-blocking feedback.</div></div>,
+              <div key="3" className="usage-item"><div className="usage-dot" style={{ background:"#a6a09b" }}/><div className="usage-text"><strong>Button order:</strong> Close (left) · Secondary action · Confirm/Primary (rightmost).</div></div>,
             ]}
           />
         </section>
       </main>
-    </>
+    </ThemeCtx.Provider>
   );
 }
 

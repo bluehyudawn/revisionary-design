@@ -21,14 +21,14 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: #f4f4f1; color: #1c1917; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: #F5F5F5; color: #1c1917; -webkit-font-smoothing: antialiased; }
     a { text-decoration: none; color: inherit; }
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
 
     /* Article body typography */
     .article-body { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.78; color: #292524; }
-    .article-body h2 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 22px; color: #1c1917; margin: 44px 0 16px; padding-top: 4px; }
+    .article-body h2 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 25px; color: #1c1917; margin: 44px 0 16px; padding-top: 4px; }
     .article-body h3 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; color: #292524; margin: 32px 0 12px; }
     .article-body p { margin-bottom: 22px; }
     .article-body ul, .article-body ol { padding-left: 26px; margin-bottom: 22px; }
@@ -67,25 +67,29 @@ function Avatar({ initials, size=36 }) {
 
 function Nav() {
   return (
-    <nav style={{ position:"sticky", top:0, zIndex:100, background:"#fff", borderBottom:"1px solid #e7e5e4", height:64 }}>
-      <div style={{ maxWidth:1240, margin:"0 auto", padding:"0 32px", height:"100%", display:"flex", alignItems:"center", gap:40 }}>
-        <a href="#" style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:18, color:"#1c1917", whiteSpace:"nowrap" }}>
-          Revision<span style={{ color:"#783cf0" }}>Online</span>
-        </a>
-        <div style={{ display:"flex", alignItems:"center", gap:28, flex:1 }}>
-          {["Score Calculator","VCE Schedule","Features","Blog","Contact"].map(item => (
-            <a key={item} href={item==="Blog"?"blog.html":"#"}
-              style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:item==="Blog"?"#783cf0":"#57534d", whiteSpace:"nowrap" }}>
-              {item}
-            </a>
-          ))}
-        </div>
-        <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-          <a href="#" style={{ padding:"10px 18px", borderRadius:60, border:"1px solid #e7e5e4", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#44403b", cursor:"pointer" }}>
-            Sign in
+    <nav style={{ position:"sticky", top:0, zIndex:100, background:"#ffffff", borderBottom:"1px solid #e7e5e4", height:56 }}>
+      <div style={{ maxWidth:1440, margin:"0 auto", padding:"0 50px", height:"100%", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        {/* Left: combination logo + nav links */}
+        <div style={{ display:"flex", alignItems:"center", gap:44 }}>
+          <a href="#">
+            <img src="combination.svg" alt="Revisionary Online" style={{ height:30, width:"auto", display:"block" }} />
           </a>
-          <a href="#" style={{ padding:"10px 18px", borderRadius:60, background:"#783cf0", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#fff", cursor:"pointer", boxShadow:"0 6px 2px -4px rgba(14,14,44,0.1)", whiteSpace:"nowrap" }}>
-            Get started — it's free
+          <div style={{ display:"flex", alignItems:"center", gap:32 }}>
+            {["Score Calculator","VCE Schedule","Features","Contact"].map(item => (
+              <a key={item} href="#"
+                style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:"#000", textDecoration:"none", whiteSpace:"nowrap", lineHeight:1.4 }}>
+                {item}
+              </a>
+            ))}
+          </div>
+        </div>
+        {/* Right: Login + Sign Up */}
+        <div style={{ display:"flex", alignItems:"center", gap:21 }}>
+          <a href="#" style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:"#000", textDecoration:"none", whiteSpace:"nowrap" }}>
+            Login
+          </a>
+          <a href="#" style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", padding:"7px 16px", borderRadius:70, background:"#772efe", fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:14, color:"#fff", textDecoration:"none", whiteSpace:"nowrap" }}>
+            Sign Up - It's free
           </a>
         </div>
       </div>
@@ -95,40 +99,34 @@ function Nav() {
 
 function Footer() {
   return (
-    <footer style={{ background:"#1c1917", marginTop:80, padding:"56px 32px 40px" }}>
-      <div style={{ maxWidth:1240, margin:"0 auto" }}>
-        <div style={{ display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:40, marginBottom:48 }}>
-          <div style={{ maxWidth:280 }}>
-            <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:18, color:"#fff", marginBottom:10 }}>
-              Revision<span style={{ color:"#a280f8" }}>Online</span>
-            </div>
-            <p style={{ fontFamily:"Inter,sans-serif", fontSize:14, lineHeight:1.6, color:"#79716b" }}>
-              Australia's leading VCE exam preparation platform, trusted by thousands of students every year.
-            </p>
-          </div>
-          <div style={{ display:"flex", gap:56, flexWrap:"wrap" }}>
-            {[
-              { label:"Platform",  links:["Score Calculator","VCE Schedule","Features","Pricing"] },
-              { label:"Resources", links:["Blog","Study Guides","Practice Exams","Subject Notes"] },
-              { label:"Company",   links:["About","Contact","Privacy","Terms"] },
-            ].map(col => (
-              <div key={col.label}>
-                <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:11, color:"#57534d", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:16 }}>
-                  {col.label}
-                </div>
-                <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
-                  {col.links.map(link => (
-                    <a key={link} href="#" style={{ fontFamily:"Inter,sans-serif", fontSize:14, color:"#a6a09b" }}>{link}</a>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style={{ borderTop:"1px solid #292524", paddingTop:24 }}>
-          <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#57534d" }}>© 2026 RevisionOnline Pty Ltd. All rights reserved.</span>
-        </div>
+    <footer style={{ background:"#D6D3D1", position:"relative", height:380, overflow:"hidden" }}>
+
+      {/* Symbol — top left */}
+      <img src="symbol.svg" alt=""
+        style={{ position:"absolute", left:50, top:36, width:76, height:76 }} />
+
+      {/* Nav links — right column, upper area (aligned with symbol top) */}
+      <div style={{ position:"absolute", left:"60.3%", top:36,
+        display:"flex", flexDirection:"column", gap:16,
+        fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:20,
+        color:"#000", lineHeight:1.4, whiteSpace:"nowrap" }}>
+        {["Score Calculator","VCE Schedule","Features","Contact"].map(item => (
+          <a key={item} href="#" style={{ color:"inherit", textDecoration:"none" }}>{item}</a>
+        ))}
       </div>
+
+      {/* Wordmark — bottom left */}
+      <img src="wordmark.png" alt="Revisionary Online"
+        style={{ position:"absolute", left:50, bottom:31, width:655, height:71 }} />
+
+      {/* Copyright — bottom right */}
+      <div style={{ position:"absolute", left:"60.3%", bottom:36,
+        fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12,
+        color:"#1f1f1f", opacity:0.5, lineHeight:1.5, whiteSpace:"nowrap" }}>
+        <div>REVISION ONLINE PTY LTD©2026</div>
+        <div>Trademarks and brands are the property of RevisionaryOnline.</div>
+      </div>
+
     </footer>
   );
 }
@@ -168,7 +166,7 @@ function TableOfContents({ activeSection }) {
   );
 }
 
-function AuthorCard() {
+function AuthorCard({ onViewAll }) {
   return (
     <div style={{ background:"#fff", borderRadius:14, border:"1px solid #e7e5e4", padding:"24px", boxShadow:"0 1px 3px rgba(0,0,0,0.04)", marginTop:20 }}>
       <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
@@ -181,30 +179,168 @@ function AuthorCard() {
       <p style={{ fontFamily:"Inter,sans-serif", fontSize:13.5, lineHeight:1.6, color:"#57534d", marginBottom:16 }}>
         Sarah has helped hundreds of VCE students improve their English scores. She holds a Masters in Education and is passionate about making complex ideas accessible to every student.
       </p>
-      <a href="#" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 16px", borderRadius:60, border:"1px solid #e7e5e4", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:13, color:"#44403b", background:"#fff" }}>
+      <button onClick={onViewAll} style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 16px", borderRadius:60, border:"1px solid #e7e5e4", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:13, color:"#44403b", background:"#fff", cursor:"pointer" }}>
         View all articles
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="#44403b" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-      </a>
+      </button>
     </div>
   );
 }
 
-function ShareCard() {
+/* ── Author Articles Page ──────────────────────────────────────────── */
+const AUTHOR_ARTICLES = [
+  { category:"Study Tips",     categoryStyle:{ bg:"#ece8fd", color:"#783cf0" }, title:"How to Ace Your VCE English: Text Response Strategies",              date:"18 Mar 2026", readTime:"8 min",  gradient:"linear-gradient(135deg,#f5f2ff,#dcd1ff)", current:true },
+  { category:"Exam Prep",      categoryStyle:{ bg:"#ffedd4", color:"#ea5a0c" }, title:"5 Weeks to Exam Day: The Ultimate VCE English Revision Plan",         date:"2 Mar 2026",  readTime:"9 min",  gradient:"linear-gradient(135deg,#fff7ed,#fdbb74)" },
+  { category:"Study Tips",     categoryStyle:{ bg:"#ece8fd", color:"#783cf0" }, title:"How to Write a Perfect Comparative Essay in VCE English",             date:"14 Feb 2026", readTime:"11 min", gradient:"linear-gradient(135deg,#ece8fd,#a280f8)" },
+  { category:"Subject Guides", categoryStyle:{ bg:"#dfe8ff", color:"#5967f4" }, title:"Understanding Context in VCE English: A Complete Guide",              date:"28 Jan 2026", readTime:"7 min",  gradient:"linear-gradient(135deg,#dfe8ff,#7c91fd)" },
+  { category:"Study Tips",     categoryStyle:{ bg:"#ece8fd", color:"#783cf0" }, title:"Metalanguage Masterclass: Words That Will Elevate Your VCE Essays",   date:"10 Jan 2026", readTime:"6 min",  gradient:"linear-gradient(135deg,#f5f2ff,#c0affb)" },
+  { category:"Exam Prep",      categoryStyle:{ bg:"#ffedd4", color:"#ea5a0c" }, title:"Reading Time Strategy: How to Use Your 15 Minutes Effectively",       date:"5 Dec 2025",  readTime:"5 min",  gradient:"linear-gradient(135deg,#fff7ed,#fb943c)" },
+];
+
+function AuthorArticlesPage({ onBack }) {
   return (
-    <div style={{ background:"linear-gradient(135deg,#f5f2ff,#ece8fd)", borderRadius:14, border:"1px solid #dcd1ff", padding:"20px 24px", marginTop:20 }}>
-      <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:15, color:"#1c1917", marginBottom:6 }}>
+    <div>
+      <Nav />
+
+      {/* Author hero */}
+      <div style={{ background:"#fff", borderBottom:"1px solid #e7e5e4" }}>
+        <div style={{ maxWidth:1240, margin:"0 auto", padding:"40px 32px 36px" }}>
+          <button onClick={onBack} style={{ display:"inline-flex", alignItems:"center", gap:6, marginBottom:28, background:"none", border:"none", cursor:"pointer", fontFamily:"Inter,sans-serif", fontSize:13, color:"#79716b", padding:0 }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#79716b" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Back to article
+          </button>
+          <div style={{ display:"flex", alignItems:"flex-start", gap:24 }}>
+            <Avatar initials="SM" size={80} />
+            <div style={{ flex:1 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
+                <h1 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:26, color:"#1c1917" }}>Sarah Mitchell</h1>
+                <span style={{ display:"inline-flex", padding:"3px 12px", borderRadius:6, background:"#ece8fd", fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:13, color:"#783cf0" }}>VCE Study Coach</span>
+              </div>
+              <p style={{ fontFamily:"Inter,sans-serif", fontSize:15, lineHeight:1.6, color:"#57534d", maxWidth:640, marginBottom:20 }}>
+                Sarah has helped hundreds of VCE students improve their English scores. She holds a Masters in Education from the University of Melbourne and is passionate about making complex literary analysis accessible to every student.
+              </p>
+              <div style={{ display:"flex", gap:24 }}>
+                {[
+                  { label:"Articles", value:"6" },
+                  { label:"Total reads", value:"24k+" },
+                  { label:"Avg. read time", value:"7.7 min" },
+                ].map(stat => (
+                  <div key={stat.label}>
+                    <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:20, color:"#1c1917" }}>{stat.value}</div>
+                    <div style={{ fontFamily:"Inter,sans-serif", fontSize:12, color:"#a6a09b" }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Articles grid */}
+      <div style={{ maxWidth:1240, margin:"0 auto", padding:"48px 32px" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:32 }}>
+          <h2 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:20, color:"#1c1917" }}>All Articles</h2>
+          <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#a6a09b" }}>{AUTHOR_ARTICLES.length} articles</span>
+        </div>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24 }}>
+          {AUTHOR_ARTICLES.map((article, i) => (
+            <AuthorArticleCard key={i} article={article} onBack={onBack} />
+          ))}
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}
+
+function AuthorArticleCard({ article, onBack }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={article.current ? onBack : undefined}
+      style={{ display:"block", background:"#fff", borderRadius:14, border:`1px solid ${article.current?"#dcd1ff":"#e7e5e4"}`, overflow:"hidden", cursor:"pointer", transition:"box-shadow 0.2s, transform 0.2s", boxShadow:hovered?"0 8px 28px rgba(120,60,240,0.1)":"0 1px 3px rgba(0,0,0,0.04)", transform:hovered?"translateY(-2px)":"none", position:"relative" }}>
+      {article.current && (
+        <div style={{ position:"absolute", top:12, right:12, zIndex:2, display:"inline-flex", padding:"2px 10px", borderRadius:6, background:"#783cf0", fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:11, color:"#fff" }}>
+          Current
+        </div>
+      )}
+      <div style={{ height:140, background:article.gradient }} />
+      <div style={{ padding:"18px 20px 22px" }}>
+        <span style={{ display:"inline-flex", padding:"2px 10px", borderRadius:6, background:article.categoryStyle.bg, fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12, color:article.categoryStyle.color, marginBottom:10 }}>
+          {article.category}
+        </span>
+        <h4 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:16, lineHeight:1.3, color:"#1c1917", marginBottom:14, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
+          {article.title}
+        </h4>
+        <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+          <span style={{ fontFamily:"Inter,sans-serif", fontSize:12.5, color:"#79716b" }}>{article.date}</span>
+          <span style={{ width:3, height:3, borderRadius:"50%", background:"#d6d3d1" }} />
+          <span style={{ fontFamily:"Inter,sans-serif", fontSize:12.5, color:"#a6a09b" }}>{article.readTime} read</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const IconInstagram = () => (
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+    <rect x="1" y="1" width="13" height="13" rx="3.5" stroke="#783cf0" strokeWidth="1.2"/>
+    <circle cx="7.5" cy="7.5" r="2.8" stroke="#783cf0" strokeWidth="1.2"/>
+    <circle cx="11.2" cy="3.8" r="0.8" fill="#783cf0"/>
+  </svg>
+);
+const IconLinkedIn = () => (
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+    <rect x="1" y="1" width="13" height="13" rx="2.5" stroke="#783cf0" strokeWidth="1.2"/>
+    <path d="M3.2 5.8h1.7v6.2H3.2V5.8ZM4.05 4.9a.85.85 0 1 0 0-1.7.85.85 0 0 0 0 1.7ZM6.8 5.8H8.4v.85h.02c.24-.46.96-1 1.96-1C12.1 5.65 12.5 7 12.5 8.7V12H10.8V9.05c0-.73-.01-1.67-1.02-1.67-1.02 0-1.18.8-1.18 1.62V12H6.8V5.8Z" fill="#783cf0"/>
+  </svg>
+);
+const IconCopyLink = () => (
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+    <path d="M6.3 8.2a3.2 3.2 0 0 0 4.5 0l1.7-1.7a3.2 3.2 0 0 0-4.5-4.5L7 3.05" stroke="#783cf0" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M8.7 6.8a3.2 3.2 0 0 0-4.5 0L2.5 8.5a3.2 3.2 0 0 0 4.5 4.5L8 11.95" stroke="#783cf0" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+);
+
+function ShareCard() {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href).catch(()=>{});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  const btnStyle = (active) => ({
+    display:"flex", alignItems:"center", justifyContent:"center", gap:7,
+    padding:"11px 16px", borderRadius:10,
+    border:"1px solid #e7e5e4",
+    background: active ? "rgba(120,60,240,0.07)" : "#fff",
+    fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:13,
+    color:"#783cf0", cursor:"pointer", transition:"background 0.15s",
+  });
+  return (
+    <div style={{ background:"#fff", borderRadius:14, border:"1px solid #e7e5e4", padding:"20px 20px", marginTop:20 }}>
+      <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:15, color:"#1c1917", marginBottom:5 }}>
         Found this helpful?
       </div>
-      <p style={{ fontFamily:"Inter,sans-serif", fontSize:13.5, color:"#57534d", marginBottom:16, lineHeight:1.5 }}>
+      <p style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#79716b", marginBottom:14, lineHeight:1.5 }}>
         Share with a classmate who needs it.
       </p>
-      <div style={{ display:"flex", gap:8 }}>
-        {["Twitter","LinkedIn","Copy link"].map(s => (
-          <button key={s} style={{ flex:1, padding:"8px 0", borderRadius:8, border:"1px solid #dcd1ff", background:"rgba(255,255,255,0.7)", fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12, color:"#783cf0", cursor:"pointer" }}>
-            {s}
-          </button>
-        ))}
+      {/* Row 1: Instagram + LinkedIn */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginBottom:8 }}>
+        <button onClick={() => window.open(`https://www.instagram.com/`)} style={btnStyle(false)}>
+          <IconInstagram />Instagram
+        </button>
+        <button onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`)} style={btnStyle(false)}>
+          <IconLinkedIn />LinkedIn
+        </button>
       </div>
+      {/* Row 2: Copy link */}
+      <button onClick={() => { navigator.clipboard.writeText(window.location.href).catch(()=>{}); setCopied(true); setTimeout(()=>setCopied(false),2000); }} style={{ ...btnStyle(copied), width:"100%" }}>
+        <IconCopyLink />{copied ? "Copied!" : "Copy link"}
+      </button>
     </div>
   );
 }
@@ -244,6 +380,11 @@ function RelatedCard({ article }) {
 /* ── Main App ──────────────────────────────────────────────────────── */
 function App() {
   const [activeSection, setActiveSection] = useState("why-matters");
+  const [view, setView] = useState("detail"); // "detail" | "author-articles"
+
+  if (view === "author-articles") {
+    return <AuthorArticlesPage onBack={() => { setView("detail"); window.scrollTo(0,0); }} />;
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
@@ -258,7 +399,7 @@ function App() {
       <Nav />
 
       {/* Article header */}
-      <div style={{ background:"#fff", borderBottom:"1px solid #e7e5e4" }}>
+      <div style={{ background:"#F5F5F5" }}>
         <div style={{ maxWidth:840, margin:"0 auto", padding:"32px 32px 36px" }}>
           {/* Breadcrumb */}
           <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:24 }}>
@@ -297,7 +438,7 @@ function App() {
                 { label:"8 min read", icon:<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#a6a09b" strokeWidth="1.4"/><path d="M7 4.5v3l1.5 1.5" stroke="#a6a09b" strokeWidth="1.4" strokeLinecap="round"/></svg> },
                 { label:"Year 12",    icon:<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="3.5" width="10" height="8" rx="1.5" stroke="#a6a09b" strokeWidth="1.4"/><path d="M5 3.5V2.5a1 1 0 0 1 2 0v1M4.5 7h5M4.5 9.5h3" stroke="#a6a09b" strokeWidth="1.4" strokeLinecap="round"/></svg> },
               ].map(({ label, icon }) => (
-                <div key={label} style={{ display:"flex", alignItems:"center", gap:5, padding:"6px 12px", borderRadius:8, background:"#f4f4f1", fontFamily:"Inter,sans-serif", fontSize:13, color:"#79716b" }}>
+                <div key={label} style={{ display:"flex", alignItems:"center", gap:5, padding:"6px 12px", borderRadius:8, background:"#ffffff", border:"1px solid #e7e5e4", fontFamily:"Inter,sans-serif", fontSize:13, color:"#79716b" }}>
                   {icon}{label}
                 </div>
               ))}
@@ -306,29 +447,24 @@ function App() {
         </div>
       </div>
 
-      {/* Hero art */}
-      <div style={{ background:"linear-gradient(135deg,#f5f2ff 0%,#dcd1ff 45%,#a280f8 100%)", height:320, maxWidth:"100%", position:"relative", overflow:"hidden" }}>
-        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", gap:24 }}>
-          {/* Decorative English text fragments */}
-          {[
-            { text:"Contention",  x:"15%", y:"30%", size:16, opacity:0.35 },
-            { text:"Argument",    x:"72%", y:"22%", size:14, opacity:0.3 },
-            { text:"Paragraph",   x:"55%", y:"68%", size:13, opacity:0.28 },
-            { text:"Evidence",    x:"28%", y:"72%", size:15, opacity:0.32 },
-            { text:"Analysis",    x:"80%", y:"60%", size:14, opacity:0.3 },
-            { text:"Synthesis",   x:"42%", y:"38%", size:12, opacity:0.25 },
-          ].map(({ text, x, y, size, opacity }) => (
-            <span key={text} style={{ position:"absolute", left:x, top:y, fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:`${size}px`, color:"#fff", opacity, letterSpacing:"0.04em", pointerEvents:"none", userSelect:"none" }}>
-              {text}
-            </span>
-          ))}
-          <div style={{ textAlign:"center", position:"relative", zIndex:1 }}>
-            <div style={{ width:72, height:72, borderRadius:"50%", background:"rgba(255,255,255,0.2)", backdropFilter:"blur(12px)", border:"1.5px solid rgba(255,255,255,0.4)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 14px" }}>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 8h20M6 13h14M6 18h18M6 23h10" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
-            </div>
-            <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:15, color:"rgba(255,255,255,0.9)" }}>VCE English · Text Response</div>
+      {/* Hero — VCE cover image with frosted glass pill */}
+      <div style={{ height:320, maxWidth:"100%", position:"relative", overflow:"hidden", background:"#a1a1a1" }}>
+
+        {/* Background: sunset road photo */}
+        <img src="http://localhost:3845/assets/700e468383e37c77bfcd93ee87295ff723b6be42.png"
+          alt=""
+          style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", minWidth:"100%", minHeight:"100%", width:"auto", height:"auto", objectFit:"cover", pointerEvents:"none" }} />
+
+        {/* Frosted glass search pill — centered */}
+        <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:447, display:"flex", flexDirection:"column", gap:10, alignItems:"flex-start", padding:"26px 31px", borderRadius:60, background:"rgba(255,255,255,0.6)", backdropFilter:"blur(42px)", WebkitBackdropFilter:"blur(42px)" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:14, width:"100%" }}>
+            {/* Search icon */}
+            <img src="http://localhost:3845/assets/566a54b71f6f6c615795ee73c76d43a48e6edb32.svg"
+              alt="" style={{ width:34, height:34, flexShrink:0 }} />
+            <span style={{ fontFamily:"'Helvetica Neue',Helvetica,Arial,sans-serif", fontWeight:700, fontSize:40, color:"#201b1b", whiteSpace:"nowrap", lineHeight:1.34 }}>VCE A to Z</span>
           </div>
         </div>
+
       </div>
 
       {/* Two-column layout */}
@@ -466,14 +602,14 @@ function App() {
           {/* Sidebar */}
           <aside style={{ position:"sticky", top:80 }}>
             <TableOfContents activeSection={activeSection} />
-            <AuthorCard />
+            <AuthorCard onViewAll={() => { setView("author-articles"); window.scrollTo(0,0); }} />
             <ShareCard />
           </aside>
         </div>
       </div>
 
       {/* Related articles */}
-      <div style={{ background:"#fff", borderTop:"1px solid #e7e5e4", padding:"56px 32px" }}>
+      <div style={{ background:"#fff", borderTop:"1px solid #e7e5e4", padding:"80px 32px 110px" }}>
         <div style={{ maxWidth:1240, margin:"0 auto" }}>
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:32 }}>
             <h2 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:22, color:"#1c1917" }}>Related Articles</h2>

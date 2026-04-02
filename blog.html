@@ -21,7 +21,7 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--stone-100); color: var(--stone-900); -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: #F5F5F5; color: var(--stone-900); -webkit-font-smoothing: antialiased; }
     a { text-decoration: none; color: inherit; }
     .clamp2 { overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
     .clamp3 { overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; }
@@ -43,6 +43,10 @@ const BADGE_STYLE = {
 };
 const CATEGORIES = ["All","Study Tips","Exam Prep","Subject Guides","VCE News"];
 
+/* ── Figma assets ──────────────────────────────────────────────────── */
+const IMG_ENVELOPE    = "http://localhost:3845/assets/22ee8a008520abfa98069404d6cf1160a598b914.svg";
+const IMG_VECTOR25    = "http://localhost:3845/assets/3d38e5d3ed22e6f6c300003f9103243afcefd890.svg";
+
 /* ── Data ──────────────────────────────────────────────────────────── */
 const FEATURED = {
   category:"Study Tips", title:"The Complete Guide to VCE Exam Preparation: Everything You Need to Know",
@@ -63,10 +67,13 @@ const ARTICLES = [
 ];
 
 /* ── Shared components ─────────────────────────────────────────────── */
-function Badge({ category, size="sm" }) {
+function Badge({ category, size="sm", white=false }) {
   const b = BADGE_STYLE[category] || { bg:"#e7e5e4", color:"#57534d" };
+  const bg    = white ? "#fff" : b.bg;
+  const color = white ? b.color : b.color;
+  const border = white ? `1px solid rgba(0,0,0,0.12)` : "none";
   return (
-    <span style={{ display:"inline-flex", alignItems:"center", padding:size==="lg"?"4px 14px":"2px 10px", borderRadius:6, background:b.bg, fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:size==="lg"?13:12, lineHeight:1.5, color:b.color, whiteSpace:"nowrap" }}>
+    <span style={{ display:"inline-flex", alignItems:"center", padding:size==="lg"?"4px 14px":"2px 10px", borderRadius:6, background:bg, border, fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:size==="lg"?13:12, lineHeight:1.5, color, whiteSpace:"nowrap" }}>
       {category}
     </span>
   );
@@ -80,27 +87,30 @@ function Avatar({ initials, size=36 }) {
   );
 }
 
+/* ── Nav (matches blog-detail) ─────────────────────────────────────── */
 function Nav() {
   return (
-    <nav style={{ position:"sticky", top:0, zIndex:100, background:"#fff", borderBottom:"1px solid #e7e5e4", height:64 }}>
-      <div style={{ maxWidth:1240, margin:"0 auto", padding:"0 32px", height:"100%", display:"flex", alignItems:"center", gap:40 }}>
-        <a href="#" style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:18, color:"#1c1917", whiteSpace:"nowrap" }}>
-          Revision<span style={{ color:"#783cf0" }}>Online</span>
-        </a>
-        <div style={{ display:"flex", alignItems:"center", gap:28, flex:1 }}>
-          {["Score Calculator","VCE Schedule","Features","Blog","Contact"].map(item => (
-            <a key={item} href={item==="Blog"?"blog.html":"#"}
-              style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:item==="Blog"?"#783cf0":"#57534d", whiteSpace:"nowrap" }}>
-              {item}
-            </a>
-          ))}
-        </div>
-        <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-          <a href="#" style={{ padding:"10px 18px", borderRadius:60, border:"1px solid #e7e5e4", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#44403b", cursor:"pointer" }}>
-            Sign in
+    <nav style={{ position:"sticky", top:0, zIndex:100, background:"#ffffff", borderBottom:"1px solid #e7e5e4", height:56 }}>
+      <div style={{ maxWidth:1440, margin:"0 auto", padding:"0 50px", height:"100%", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:44 }}>
+          <a href="#">
+            <img src="combination.svg" alt="Revisionary Online" style={{ height:30, width:"auto", display:"block" }} />
           </a>
-          <a href="#" style={{ padding:"10px 18px", borderRadius:60, background:"#783cf0", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#fff", cursor:"pointer", boxShadow:"0 6px 2px -4px rgba(14,14,44,0.1)", whiteSpace:"nowrap" }}>
-            Get started — it's free
+          <div style={{ display:"flex", alignItems:"center", gap:32 }}>
+            {["Score Calculator","VCE Schedule","Features","Contact"].map(item => (
+              <a key={item} href="#"
+                style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:"#000", textDecoration:"none", whiteSpace:"nowrap", lineHeight:1.4 }}>
+                {item}
+              </a>
+            ))}
+          </div>
+        </div>
+        <div style={{ display:"flex", alignItems:"center", gap:21 }}>
+          <a href="#" style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:14, color:"#000", textDecoration:"none", whiteSpace:"nowrap" }}>
+            Login
+          </a>
+          <a href="#" style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", padding:"7px 16px", borderRadius:70, background:"#772efe", fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:14, color:"#fff", textDecoration:"none", whiteSpace:"nowrap" }}>
+            Sign Up - It's free
           </a>
         </div>
       </div>
@@ -108,41 +118,27 @@ function Nav() {
   );
 }
 
+/* ── Footer (matches blog-detail) ─────────────────────────────────── */
 function Footer() {
   return (
-    <footer style={{ background:"#1c1917", marginTop:80, padding:"56px 32px 40px" }}>
-      <div style={{ maxWidth:1240, margin:"0 auto" }}>
-        <div style={{ display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:40, marginBottom:48 }}>
-          <div style={{ maxWidth:280 }}>
-            <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:18, color:"#fff", marginBottom:10 }}>
-              Revision<span style={{ color:"#a280f8" }}>Online</span>
-            </div>
-            <p style={{ fontFamily:"Inter,sans-serif", fontSize:14, lineHeight:1.6, color:"#79716b" }}>
-              Australia's leading VCE exam preparation platform, trusted by thousands of students every year.
-            </p>
-          </div>
-          <div style={{ display:"flex", gap:56, flexWrap:"wrap" }}>
-            {[
-              { label:"Platform",  links:["Score Calculator","VCE Schedule","Features","Pricing"] },
-              { label:"Resources", links:["Blog","Study Guides","Practice Exams","Subject Notes"] },
-              { label:"Company",   links:["About","Contact","Privacy","Terms"] },
-            ].map(col => (
-              <div key={col.label}>
-                <div style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:11, color:"#57534d", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:16 }}>
-                  {col.label}
-                </div>
-                <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
-                  {col.links.map(link => (
-                    <a key={link} href="#" style={{ fontFamily:"Inter,sans-serif", fontSize:14, color:"#a6a09b" }}>{link}</a>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style={{ borderTop:"1px solid #292524", paddingTop:24 }}>
-          <span style={{ fontFamily:"Inter,sans-serif", fontSize:13, color:"#57534d" }}>© 2026 RevisionOnline Pty Ltd. All rights reserved.</span>
-        </div>
+    <footer style={{ background:"#D6D3D1", position:"relative", height:380, overflow:"hidden" }}>
+      <img src="symbol.svg" alt=""
+        style={{ position:"absolute", left:50, top:36, width:76, height:76 }} />
+      <div style={{ position:"absolute", left:"60.3%", top:36,
+        display:"flex", flexDirection:"column", gap:16,
+        fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:20,
+        color:"#000", lineHeight:1.4, whiteSpace:"nowrap" }}>
+        {["Score Calculator","VCE Schedule","Features","Contact"].map(item => (
+          <a key={item} href="#" style={{ color:"inherit", textDecoration:"none" }}>{item}</a>
+        ))}
+      </div>
+      <img src="wordmark.png" alt="Revisionary Online"
+        style={{ position:"absolute", left:50, bottom:31, width:655, height:71 }} />
+      <div style={{ position:"absolute", left:"60.3%", bottom:36,
+        fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:12,
+        color:"#1f1f1f", opacity:0.5, lineHeight:1.5, whiteSpace:"nowrap" }}>
+        <div>REVISION ONLINE PTY LTD©2026</div>
+        <div>Trademarks and brands are the property of RevisionaryOnline.</div>
       </div>
     </footer>
   );
@@ -151,21 +147,28 @@ function Footer() {
 /* ── Page-specific components ──────────────────────────────────────── */
 function Hero() {
   return (
-    <section style={{ background:"linear-gradient(180deg,#f5f2ff 0%,#f4f4f1 100%)", padding:"72px 32px 64px", position:"relative", overflow:"hidden" }}>
-      <div style={{ position:"absolute", top:-100, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(162,128,248,0.18),transparent 70%)", pointerEvents:"none" }} />
-      <div style={{ position:"absolute", bottom:-60, left:"15%", width:280, height:280, borderRadius:"50%", background:"radial-gradient(circle,rgba(89,103,244,0.12),transparent 70%)", pointerEvents:"none" }} />
-      <div style={{ maxWidth:1240, margin:"0 auto", position:"relative" }}>
-        <div style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"5px 14px", borderRadius:60, background:"#ece8fd", marginBottom:22 }}>
-          <span style={{ width:6, height:6, borderRadius:"50%", background:"#783cf0", flexShrink:0 }} />
-          <span style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:13, color:"#783cf0" }}>Blog & Resources</span>
+    <section style={{ background:"linear-gradient(180deg,#ffffff 0%,#f8f7ff 50%,#F5F5F5 100%)", padding:"72px 180px 80px", position:"relative", overflow:"hidden" }}>
+      {/* Bottom fade to blend into page bg */}
+      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:60, background:"linear-gradient(to bottom,transparent,#F5F5F5)", pointerEvents:"none" }} />
+      <div style={{ maxWidth:1440, margin:"0 auto", position:"relative", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        {/* Left: copy */}
+        <div style={{ maxWidth:560 }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"5px 14px", borderRadius:60, background:"#ece8fd", marginBottom:22 }}>
+            <span style={{ width:6, height:6, borderRadius:"50%", background:"#783cf0", flexShrink:0 }} />
+            <span style={{ fontFamily:"Inter,sans-serif", fontWeight:600, fontSize:13, color:"#783cf0" }}>Blog & Resources</span>
+          </div>
+          <h1 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:52, lineHeight:1.06, color:"#1c1917", marginBottom:18 }}>
+            Study smarter,<br />
+            <span style={{ color:"#783cf0" }}>not just harder.</span>
+          </h1>
+          <p style={{ fontFamily:"Inter,sans-serif", fontWeight:400, fontSize:18, lineHeight:1.56, color:"#57534d", maxWidth:460 }}>
+            Expert strategies, subject guides, and study insights to help every VCE student reach their potential.
+          </p>
         </div>
-        <h1 style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:52, lineHeight:1.06, color:"#1c1917", marginBottom:18, maxWidth:560 }}>
-          Study smarter,<br />
-          <span style={{ color:"#783cf0" }}>not just harder.</span>
-        </h1>
-        <p style={{ fontFamily:"Inter,sans-serif", fontWeight:400, fontSize:18, lineHeight:1.56, color:"#57534d", maxWidth:500 }}>
-          Expert strategies, subject guides, and study insights to help every VCE student reach their potential.
-        </p>
+        {/* Right: subjects gem illustration */}
+        <div style={{ flexShrink:0, marginRight:20 }}>
+          <img src="subjects-gem.svg" alt="" style={{ width:420, height:"auto", display:"block", filter:"drop-shadow(0 24px 48px rgba(120,60,240,0.18))" }} />
+        </div>
       </div>
     </section>
   );
@@ -178,7 +181,6 @@ function FeaturedCard({ article }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ display:"flex", background:"#fff", borderRadius:16, border:"1px solid #e7e5e4", overflow:"hidden", boxShadow:hovered?"0 8px 32px rgba(120,60,240,0.12)":"0 2px 8px rgba(0,0,0,0.04)", transition:"box-shadow 0.2s", cursor:"pointer", marginBottom:48 }}>
-      {/* Gradient art area */}
       <div style={{ width:360, flexShrink:0, background:article.gradient, position:"relative", minHeight:300 }}>
         <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:28, gap:8 }}>
           <div style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"5px 12px", borderRadius:60, background:"rgba(255,255,255,0.25)", backdropFilter:"blur(8px)", width:"fit-content" }}>
@@ -188,7 +190,6 @@ function FeaturedCard({ article }) {
           <span style={{ fontFamily:"Inter,sans-serif", fontWeight:500, fontSize:13, color:"rgba(255,255,255,0.75)" }}>{article.readTime} read</span>
         </div>
       </div>
-      {/* Content */}
       <div style={{ padding:"36px 40px", display:"flex", flexDirection:"column", justifyContent:"center", flex:1 }}>
         <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
           <Badge category={article.category} size="lg" />
@@ -227,7 +228,8 @@ function ArticleCard({ article }) {
       style={{ display:"block", background:"#fff", borderRadius:14, border:"1px solid #e7e5e4", overflow:"hidden", cursor:"pointer", transition:"box-shadow 0.2s, transform 0.2s", boxShadow:hovered?"0 8px 28px rgba(120,60,240,0.1)":"0 1px 3px rgba(0,0,0,0.04)", transform:hovered?"translateY(-2px)":"none" }}>
       <div style={{ height:184, background:article.gradient, position:"relative" }}>
         <div style={{ position:"absolute", top:14, left:14 }}>
-          <Badge category={article.category} />
+          {/* Always white on gradient image area */}
+          <Badge category={article.category} white={true} />
         </div>
       </div>
       <div style={{ padding:"20px 24px 24px" }}>
@@ -268,24 +270,32 @@ function CategoryTabs({ active, onChange }) {
   );
 }
 
+/* ── Newsletter with Figma envelope asset ──────────────────────────── */
 function NewsletterBanner() {
   return (
-    <div style={{ background:"linear-gradient(135deg,#f5f2ff 0%,#ece8fd 100%)", borderRadius:16, border:"1px solid #dcd1ff", padding:"40px 48px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:24, marginTop:56 }}>
-      <div>
-        <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:22, color:"#1c1917", marginBottom:8 }}>
+    <div style={{ position:"relative", borderRadius:20, overflow:"hidden", background:"#2d1260", marginTop:56, padding:"52px 56px" }}>
+
+      {/* Envelope illustration — right side */}
+      <div style={{ position:"absolute", right:60, top:"50%", transform:"translateY(-50%)", width:220, height:220, pointerEvents:"none" }}>
+        <img src="mail-subscribe.png" alt="" style={{ width:"100%", height:"100%", objectFit:"contain" }} />
+      </div>
+
+      {/* Text + form */}
+      <div style={{ position:"relative", maxWidth:520 }}>
+        <div style={{ fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:28, color:"#fff", lineHeight:1.2, marginBottom:10 }}>
           Get study tips in your inbox
         </div>
-        <p style={{ fontFamily:"Inter,sans-serif", fontSize:15, color:"#57534d" }}>
+        <p style={{ fontFamily:"Inter,sans-serif", fontSize:15, color:"rgba(255,255,255,0.6)", marginBottom:28, lineHeight:1.6 }}>
           Weekly guides, strategies, and VCE news — no spam, ever.
         </p>
-      </div>
-      <div style={{ display:"flex", gap:10 }}>
-        <div style={{ width:240, height:48, background:"#fff", borderRadius:8, border:"1px solid #e7e5e4", display:"flex", alignItems:"center", padding:"0 16px" }}>
-          <span style={{ fontFamily:"Inter,sans-serif", fontSize:14, color:"#a6a09b" }}>your@email.com</span>
+        <div style={{ display:"flex", gap:10 }}>
+          <div style={{ flex:1, maxWidth:280, height:48, background:"rgba(255,255,255,0.1)", borderRadius:10, border:"1px solid rgba(255,255,255,0.2)", display:"flex", alignItems:"center", padding:"0 16px", backdropFilter:"blur(8px)" }}>
+            <span style={{ fontFamily:"Inter,sans-serif", fontSize:14, color:"rgba(255,255,255,0.4)" }}>your@email.com</span>
+          </div>
+          <button style={{ padding:"12px 24px", borderRadius:60, background:"#783cf0", border:"none", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#fff", cursor:"pointer", whiteSpace:"nowrap", boxShadow:"0 0 24px rgba(120,60,240,0.5)" }}>
+            Subscribe
+          </button>
         </div>
-        <button style={{ padding:"12px 22px", borderRadius:60, background:"#783cf0", border:"none", fontFamily:"Nunito,sans-serif", fontWeight:800, fontSize:14, color:"#fff", cursor:"pointer", boxShadow:"0 6px 2px -4px rgba(14,14,44,0.1)", whiteSpace:"nowrap" }}>
-          Subscribe
-        </button>
       </div>
     </div>
   );
@@ -300,7 +310,7 @@ function App() {
     <div>
       <Nav />
       <Hero />
-      <main style={{ maxWidth:1240, margin:"0 auto", padding:"52px 32px 0" }}>
+      <main style={{ maxWidth:1440, margin:"0 auto", padding:"52px 180px 0" }}>
 
         {/* Featured article */}
         <div style={{ marginBottom:8 }}>
@@ -342,6 +352,9 @@ function App() {
         )}
 
         <NewsletterBanner />
+
+        {/* Bottom spacing before footer */}
+        <div style={{ height:80 }} />
       </main>
       <Footer />
     </div>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — RevisionaryOnline</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Nunito', 'sans-serif'],
+            tight: ['Inter Tight', 'sans-serif'],
+          },
+          colors: {
+            stone: {
+              50:'#F8F8F6',100:'#F4F4F1',200:'#E7E5E4',300:'#D6D3D1',
+              400:'#A6A09B',500:'#79716B',600:'#57534D',700:'#44403B',
+              800:'#292524',900:'#1C1917',950:'#0C0A09',
+            },
+            revision: {
+              50:'#F5F2FF',100:'#ECE8FD',200:'#DCD1FF',300:'#C0AFFB',
+              400:'#A280F8',500:'#783CF0',600:'#7225E6',700:'#6727BE',
+              800:'#56219E',900:'#481D81',950:'#2C1157',
+            },
+            neutral: { 200:'#E5E5E5', 400:'#A1A1A1', 700:'#404040' },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #F4F4F1; color: #000; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; }
+    .font-rounded { font-family: 'Nunito', sans-serif; }
+    .hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%); }
+    .field-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px;
+      border: 1px solid #E5E5E5;
+      border-radius: 12px;
+      background: #FFFFFF;
+      font-size: 14px;
+      color: #000;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .field-input:focus { border-color: #783CF0; }
+    .field-input::placeholder { color: #A1A1A1; }
+    .field-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'><path d='M4 6L8 10L12 6' stroke='%23A1A1A1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    .field-select.placeholder { color: #A1A1A1; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-white">
+    <div class="max-w-[1440px] mx-auto flex items-center justify-between px-5 pr-3 h-14">
+      <div class="flex items-center gap-11">
+        <a href="/"><img src="assets/images/logo-combination.svg" alt="RevisionaryOnline" class="h-[30px]" /></a>
+        <nav class="hidden md:flex items-center gap-8">
+          <a href="#" class="text-sm font-medium leading-[1.4] text-black">Score Calculator</a>
+          <a href="#" class="text-sm font-medium leading-[1.4] text-black">VCE Schedule</a>
+          <a href="#" class="text-sm font-medium leading-[1.4] text-black">Features</a>
+          <a href="#" class="text-sm font-medium leading-[1.4] text-black">Contact</a>
+          <a href="blog.html" class="text-sm font-medium leading-[1.4] text-black">News</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="signin.html" class="text-sm font-medium text-black">Login</a>
+        <a href="signup.html" class="bg-[#772EFE] text-white text-sm font-semibold px-5 py-2 rounded-full leading-[1.6]">Sign Up - It's free</a>
+      </div>
+    </div>
+    <div class="w-full h-px bg-[#D2D2D2]"></div>
+  </header>
+
+  <!-- MAIN: split layout -->
+  <main class="pt-14 min-h-screen flex">
+
+    <!-- LEFT: hero image with marketing copy -->
+    <aside class="hidden lg:block relative w-[720px] h-[calc(100vh-56px)] overflow-hidden bg-stone-200">
+      <img src="assets/images/hero-student-7fe837.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 hero-overlay"></div>
+      <div class="relative z-10 h-full flex flex-col justify-end p-14 text-white">
+        <p class="font-rounded font-extrabold text-[40px] leading-[1.2]">Start your<br/>VCE journey<br/>with confidence.</p>
+        <ul class="mt-8 space-y-3 text-base text-white/90">
+          <li class="flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-revision-400"></span>
+            Realistic Exam Practice
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-revision-400"></span>
+            Actionable Insights
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-revision-400"></span>
+            Trusted by Teachers Across Victoria
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- RIGHT: signup form panel -->
+    <section class="flex-1 flex items-start justify-center px-6 py-[60px] overflow-y-auto">
+      <div class="w-full max-w-[440px]">
+
+        <h1 class="font-rounded font-extrabold text-[32px] leading-[1.24] text-center text-black">
+          Welcome to<br/>Revisionary Online.
+        </h1>
+        <p class="mt-3 text-sm text-center text-stone-500">Create your account to get started.</p>
+
+        <form class="mt-8 flex flex-col gap-4" onsubmit="event.preventDefault();">
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-black mb-1.5">Email</label>
+            <input id="email" type="email" class="field-input" placeholder="you@example.com" autocomplete="email" />
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-black mb-1.5">Password</label>
+            <input id="password" type="password" class="field-input" placeholder="At least 8 characters" autocomplete="new-password" />
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-black mb-1.5">Confirm Password</label>
+            <input id="confirmPassword" type="password" class="field-input" placeholder="Re-enter password" autocomplete="new-password" />
+          </div>
+
+          <div>
+            <label for="userType" class="block text-sm font-medium text-black mb-1.5">User Type</label>
+            <select id="userType" class="field-input field-select placeholder" onchange="this.classList.remove('placeholder')">
+              <option value="" disabled selected>Not selected</option>
+              <option value="teacher">Teacher</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="school" class="block text-sm font-medium text-black mb-1.5">School</label>
+            <select id="school" class="field-input field-select placeholder" onchange="this.classList.remove('placeholder')">
+              <option value="" disabled selected>Select your school</option>
+              <option>Melbourne High School</option>
+              <option>MacRobertson Girls' High School</option>
+              <option>Suzanne Cory High School</option>
+              <option>John Monash Science School</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <button type="submit" class="mt-2 w-full h-12 rounded-full bg-revision-500 hover:bg-revision-600 text-white font-semibold text-sm transition-colors">
+            Create account
+          </button>
+
+          <p class="text-center text-sm text-stone-600 mt-2">
+            Already have an account?
+            <a href="signin.html" class="text-revision-500 font-semibold hover:underline">Sign in</a>
+          </p>
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

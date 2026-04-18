@@ -87,16 +87,16 @@
     <div class="w-full h-px bg-[#D2D2D2]"></div>
   </header>
 
-  <!-- MAIN: split layout -->
-  <main class="pt-14 min-h-screen flex">
+  <!-- MAIN: split layout — flex stretches both columns to match -->
+  <main class="pt-14 flex min-h-[calc(100vh-56px)]">
 
     <!-- LEFT: hero image (Figma 4518:12214 — pure image, no overlay) -->
-    <aside class="hidden lg:block relative w-[720px] h-[calc(100vh-56px)] overflow-hidden bg-stone-200">
+    <aside class="hidden lg:block relative w-[720px] self-stretch overflow-hidden bg-stone-200">
       <img src="assets/images/signup-hero.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
     </aside>
 
     <!-- RIGHT: signup form panel -->
-    <section class="flex-1 flex items-start justify-center px-6 py-[60px] overflow-y-auto">
+    <section class="flex-1 flex items-start justify-center px-6 py-[60px]">
       <div class="w-full max-w-[440px]">
 
         <h1 class="font-rounded font-extrabold text-[32px] leading-[1.24] text-center text-black">

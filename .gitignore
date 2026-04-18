@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+
+# Claude Code session data
+.claude/
+
+# Figma source (exceeds GitHub 100MB single-file limit)
+*.fig
+
+# Dependencies
+node_modules/
+
+# QA screenshots (large, regenerable from qa/scripts)
+qa/screenshots/
+qa/screenshots_v2/

@@ -107,6 +107,18 @@ html, body {
 .page-wide { max-width: none; }
 /* Dashboard-style narrow rail — keeps reading column ~960px on a 1920 viewport */
 .page-narrow { max-width: 960px; }
+/* Classroom rail — Figma 1920 spec: 320px viewport margin both sides, 1280 content
+   Sidebar (224) sits inside the left 320, leaving a 96px gap from sidebar to content. */
+.page-classroom {
+  max-width: 1280px;
+  margin-left: 96px;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+@media (max-width: 1440px) {
+  .page-classroom { margin-left: clamp(24px, 4vw, 96px); padding-right: clamp(24px, 6vw, 80px); }
+}
 .brand-link { color: inherit; }
 .brand-link:hover { opacity: .85; }
 

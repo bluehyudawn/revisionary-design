@@ -604,7 +604,7 @@ function Classroom() {
   };
 
   return (
-    <div className="page">
+    <div className="page page-classroom">
       <div className="page-head page-head-classroom">
         <h1>Class Management</h1>
         <Button variant="primary" size="md" iconLeft="plus" onClick={() => setModal("add")}>Add Class</Button>

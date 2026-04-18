@@ -90,9 +90,11 @@
   <!-- MAIN: split layout — flex stretches both columns to match -->
   <main class="pt-14 flex min-h-[calc(100vh-56px)]">
 
-    <!-- LEFT: hero image (Figma 4518:12214 — pure image, no overlay) -->
-    <aside class="hidden lg:block relative w-[720px] self-stretch overflow-hidden bg-stone-200">
-      <img src="assets/images/signup-hero.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <!-- LEFT: hero image — sticky so it always fills viewport height even when right side scrolls -->
+    <aside class="hidden lg:block w-[720px] flex-shrink-0 relative">
+      <div class="sticky top-14 h-[calc(100vh-56px)] overflow-hidden bg-stone-200">
+        <img src="assets/images/signup-hero.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
+      </div>
     </aside>
 
     <!-- RIGHT: signup form panel -->

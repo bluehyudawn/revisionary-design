@@ -90,27 +90,9 @@
   <!-- MAIN: split layout -->
   <main class="pt-14 min-h-screen flex">
 
-    <!-- LEFT: hero image with marketing copy -->
+    <!-- LEFT: hero image (Figma 4518:12214 — pure image, no overlay) -->
     <aside class="hidden lg:block relative w-[720px] h-[calc(100vh-56px)] overflow-hidden bg-stone-200">
-      <img src="assets/images/hero-student-7fe837.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 hero-overlay"></div>
-      <div class="relative z-10 h-full flex flex-col justify-end p-14 text-white">
-        <p class="font-rounded font-extrabold text-[40px] leading-[1.2]">Start your<br/>VCE journey<br/>with confidence.</p>
-        <ul class="mt-8 space-y-3 text-base text-white/90">
-          <li class="flex items-center gap-3">
-            <span class="w-2 h-2 rounded-full bg-revision-400"></span>
-            Realistic Exam Practice
-          </li>
-          <li class="flex items-center gap-3">
-            <span class="w-2 h-2 rounded-full bg-revision-400"></span>
-            Actionable Insights
-          </li>
-          <li class="flex items-center gap-3">
-            <span class="w-2 h-2 rounded-full bg-revision-400"></span>
-            Trusted by Teachers Across Victoria
-          </li>
-        </ul>
-      </div>
+      <img src="assets/images/signup-hero.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
     </aside>
 
     <!-- RIGHT: signup form panel -->
@@ -120,9 +102,8 @@
         <h1 class="font-rounded font-extrabold text-[32px] leading-[1.24] text-center text-black">
           Welcome to<br/>Revisionary Online.
         </h1>
-        <p class="mt-3 text-sm text-center text-stone-500">Create your account to get started.</p>
 
-        <form class="mt-8 flex flex-col gap-4" onsubmit="event.preventDefault();">
+        <form class="mt-[30px] flex flex-col gap-3" onsubmit="event.preventDefault();">
 
           <div>
             <label for="email" class="block text-sm font-medium text-black mb-1.5">Email</label>

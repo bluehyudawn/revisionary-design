@@ -24,7 +24,14 @@ function Sidebar({ active = "dashboard", onNav }) {
   useLucide();
   return (
     <aside className="sidebar">
-      <div className="brand-row"><BrandLockup size={32} /></div>
+      <a
+        href="index.html"
+        className="brand-row brand-link"
+        title="Go to landing"
+        style={{ display: "block", textDecoration: "none", cursor: "pointer" }}
+      >
+        <BrandLockup size={32} />
+      </a>
 
       {NAV.map(sec => (
         <div className="nav-section" key={sec.group}>

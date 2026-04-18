@@ -94,7 +94,7 @@ function ExamCard({ subject = "Accounting(U3&4) | Y11", note = "Test_naming lore
 function Dashboard({ onNav }) {
   useLucide();
   return (
-    <div className="page">
+    <div className="page page-narrow">
       <HeroBanner />
 
       <div className="page-head">

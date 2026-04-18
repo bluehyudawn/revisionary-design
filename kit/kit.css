@@ -105,6 +105,10 @@ html, body {
 /* ── Page canvas ──────────────────────────────────────── */
 .page { padding: 24px 40px 64px; max-width: 1280px; margin: 0 auto; }
 .page-wide { max-width: none; }
+/* Dashboard-style narrow rail — keeps reading column ~960px on a 1920 viewport */
+.page-narrow { max-width: 960px; }
+.brand-link { color: inherit; }
+.brand-link:hover { opacity: .85; }
 
 /* ── Hero banner (Dashboard) ──────────────────────────── */
 .hero-banner {

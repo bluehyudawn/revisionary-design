@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RevisionaryOnline — Smarter VCE Preparation for Teachers</title>
+  <title>RevisionaryOnline — Smarter VCE Preparation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,7 @@
               400:'#A280F8',500:'#783CF0',600:'#7225E6',700:'#6727BE',
               800:'#56219E',900:'#481D81',950:'#2C1157',
             },
-            neutral: { 200:'#E5E5E5', 700:'#404040' },
+            neutral: { 200:'#E5E5E5', 400:'#A1A1A1', 700:'#404040', 800:'#262626' },
             emerald: { 500:'#12B795' },
           },
         },
@@ -40,242 +40,365 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: #F4F4F1; color: #000; -webkit-font-smoothing: antialiased; }
     a { text-decoration: none; color: inherit; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
     .font-rounded { font-family: 'Nunito', sans-serif; }
-    .hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.45) 100%); }
+    .hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 100%); }
     .card-shadow { box-shadow: 4px 6px 22px 0px rgba(0, 0, 0, 0.12); }
-    .profile-gradient { background: linear-gradient(180deg, rgba(29,29,29,0) 54%, rgba(29,29,29,1) 100%); }
+    .profile-gradient { background: linear-gradient(180deg, rgba(29,29,29,0) 54%, rgba(29,29,29,0.8) 100%); }
+
+    /* ─── Variant fade (teacher ↔ student) ─── */
+    .variant-fade { transition: opacity .45s ease, transform .55s cubic-bezier(.22,1,.36,1); }
+    .variant-halo { transition: background-color .55s cubic-bezier(.22,1,.36,1); }
+    .variant-pill { transition: background-color .35s ease, border-color .35s ease; }
+
+    [data-variant="teacher"] .v-teacher { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    [data-variant="teacher"] .v-student { opacity: 0; transform: translateY(8px); pointer-events: none; }
+    [data-variant="student"] .v-teacher { opacity: 0; transform: translateY(8px); pointer-events: none; }
+    [data-variant="student"] .v-student { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .stack-layer { position: absolute; inset: 0; }
+
+    /* ─── Parallax feature cards ─── */
+    .feat-card {
+      transition: transform .6s cubic-bezier(.22,1,.36,1), box-shadow .3s ease;
+      will-change: transform;
+    }
+    .feat-card[data-dragging="true"] { transition: transform .05s linear; }
   </style>
 </head>
-<body>
+<body data-variant="teacher">
 
   <!-- HEADER -->
   <header class="fixed top-0 left-0 w-full z-50 bg-white">
     <div class="max-w-[1440px] mx-auto flex items-center justify-between px-5 pr-3 h-14">
       <div class="flex items-center gap-11">
         <a href="/"><img src="assets/images/logo-combination.svg" alt="RevisionaryOnline" class="h-[30px]" /></a>
-        <nav class="hidden md:flex items-center gap-6">
+        <nav class="hidden md:flex items-center gap-8">
           <a href="#" class="text-sm font-medium leading-[1.4] text-black">Score Calculator</a>
           <a href="#" class="text-sm font-medium leading-[1.4] text-black">VCE Schedule</a>
           <a href="#features" class="text-sm font-medium leading-[1.4] text-black">Features</a>
-          <a href="#contact" class="text-sm font-medium leading-[1.4] text-black">Contact</a>
+          <a href="#" class="text-sm font-medium leading-[1.4] text-black">Contact</a>
         </nav>
       </div>
       <div class="flex items-center gap-5">
-        <a href="#" class="text-sm font-medium text-black">Login</a>
-        <a href="#" class="bg-[#772EFE] text-white text-sm font-semibold px-5 py-2 rounded-full leading-[1.6]">Sign Up - It's free</a>
+        <a href="signin.html" class="text-sm font-medium text-black">Login</a>
+        <a href="signup.html" class="bg-[#772EFE] text-white text-sm font-semibold px-5 py-2 rounded-full leading-[1.6]">Sign Up - It's free</a>
       </div>
     </div>
     <div class="w-full h-px bg-[#D2D2D2]"></div>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
   <section class="relative w-full overflow-hidden pt-14">
-    <div class="relative w-full h-[722px] bg-[#E1E1E1] overflow-hidden">
-      <img src="assets/images/tablet-preview.png" alt="RevisionaryOnline Platform" class="absolute inset-0 w-full h-full object-cover opacity-90" style="top:-258px; height:calc(100% + 258px);" />
+    <div class="relative w-full h-[673px] bg-[#E1E1E1] overflow-hidden">
+      <img src="assets/images/landing-hero-tablet.png" alt="" class="absolute inset-0 w-full h-full object-cover" />
       <div class="absolute inset-0 hero-overlay"></div>
-      <div class="absolute bottom-0 left-0 right-0 h-[60%]" style="background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%);"></div>
-      <div class="relative z-10 max-w-[1440px] mx-auto px-[220px] pt-[316px]">
+      <div class="relative z-10 max-w-[1440px] mx-auto px-[220px] pt-[260px]">
         <h1 class="font-rounded font-bold text-[42px] leading-[1.24] text-white max-w-[539px]">
           Ready to explore<br>smarter VCE preparation?
         </h1>
-        <p class="mt-4 text-lg font-normal leading-[1.4] text-[#CFCFCF] max-w-[658px]">
+        <p class="mt-5 text-lg font-normal leading-[1.4] text-[#CFCFCF] max-w-[658px]">
           Join Revisionary Online today.<br>Invite your students and get ready for a smarter way to prepare for VCE.
         </p>
-        <a href="#" class="inline-flex items-center justify-center mt-8 bg-[#772EFE] text-white font-tight font-bold text-[17px] leading-[1.6] px-[26px] py-[13px] rounded-full hover:bg-revision-600 transition-colors">Start Now</a>
+        <a href="signup.html" class="inline-flex items-center justify-center mt-8 bg-[#772EFE] text-white font-tight font-bold text-[17px] leading-[1.6] px-[26px] py-[13px] rounded-full hover:bg-revision-600 transition-colors">Start Now</a>
       </div>
     </div>
 
-    <!-- DESCRIPTION + PROFILE -->
+    <!-- DESCRIPTION + TOGGLE + PORTRAIT -->
     <div class="relative max-w-[1440px] mx-auto px-[216px] mt-20">
       <div class="flex gap-20">
+        <!-- LEFT: copy + radio -->
         <div class="flex-1 max-w-[490px]">
-          <p class="text-xl font-normal leading-[1.44] text-black">RevisionaryOnline is a cutting-edge platform designed to enhance your study experience with interactive tools and expert guidance.</p>
-          <p class="mt-5 text-xl font-normal leading-[1.44] text-black">We provide a dynamic learning environment to help students excel in their studies.</p>
-          <div class="mt-16">
-            <p class="font-rounded font-bold text-[28px] leading-[1.4] text-black">I'm a ...</p>
-            <div class="flex items-center gap-3 mt-4">
-              <label class="flex items-center gap-3 cursor-pointer">
-                <div class="w-8 h-8 rounded-full border-2 border-revision-500 flex items-center justify-center bg-revision-500">
-                  <div class="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                <span class="font-rounded font-bold text-[48px] leading-none text-black">Tutor</span>
+          <p class="text-xl font-normal leading-[1.44] text-black">
+            <span class="font-semibold">RevisionaryOnline</span> is a cutting-edge platform designed to enhance your study experience with interactive tools and expert guidance.
+          </p>
+          <p class="mt-5 text-xl font-normal leading-[1.44] text-black">
+            We provide <span class="font-semibold">a dynamic learning environment</span> to help students excel in their studies.
+          </p>
+
+          <div class="mt-14">
+            <p class="font-rounded font-bold text-lg leading-[1.4] text-black">I'm a ...</p>
+            <div class="mt-4 flex flex-col gap-3" role="radiogroup" aria-label="User role">
+              <label class="flex items-center gap-3 cursor-pointer group" data-role="teacher">
+                <span class="role-dot w-6 h-6 rounded-full border-2 border-neutral-400 flex items-center justify-center transition-all">
+                  <span class="w-2.5 h-2.5 rounded-full bg-revision-500 opacity-0 scale-50 transition-all"></span>
+                </span>
+                <span class="role-label font-rounded font-extrabold text-[32px] leading-none transition-colors text-neutral-400">Teacher</span>
               </label>
-              <label class="flex items-center gap-3 cursor-pointer ml-8">
-                <div class="w-8 h-8 rounded-full border-2 border-stone-400 flex items-center justify-center"></div>
-                <span class="font-rounded font-bold text-[48px] leading-none text-stone-400">Student</span>
+              <label class="flex items-center gap-3 cursor-pointer group" data-role="student">
+                <span class="role-dot w-6 h-6 rounded-full border-2 border-neutral-400 flex items-center justify-center transition-all">
+                  <span class="w-2.5 h-2.5 rounded-full bg-revision-500 opacity-0 scale-50 transition-all"></span>
+                </span>
+                <span class="role-label font-rounded font-extrabold text-[32px] leading-none transition-colors text-neutral-400">Student</span>
               </label>
             </div>
           </div>
         </div>
-        <div class="flex flex-col items-end gap-6">
+
+        <!-- RIGHT: portrait card + CTA pill (swaps on toggle) -->
+        <div class="flex flex-col items-end gap-5">
           <div class="relative w-[411px] h-[449px] rounded-[34px] overflow-hidden">
-            <div class="absolute inset-0 bg-[#FFC79C]"></div>
-            <img src="assets/images/hero-student-7fe837.png" alt="Student" class="absolute inset-0 w-full h-full object-cover" style="transform:scale(1.3);transform-origin:center 40%;" />
-            <div class="absolute inset-0 profile-gradient rounded-[34px]"></div>
+            <!-- teacher halo -->
+            <div class="stack-layer variant-fade variant-halo v-teacher" style="background:#FF9569;"></div>
+            <!-- student halo -->
+            <div class="stack-layer variant-fade variant-halo v-student" style="background:#B197ED;"></div>
+
+            <!-- teacher portrait -->
+            <img src="assets/images/landing-teacher-portrait.png" alt="Teacher"
+                 class="stack-layer variant-fade v-teacher w-full h-full object-cover" />
+            <!-- student portrait -->
+            <img src="assets/images/landing-student-portrait.png" alt="Student"
+                 class="stack-layer variant-fade v-student w-full h-full object-cover" />
+
+            <!-- student sticker overlay -->
+            <img src="assets/images/landing-student-sticker.png" alt="" aria-hidden="true"
+                 class="absolute right-3 bottom-16 w-[96px] variant-fade v-student pointer-events-none" />
+
+            <div class="stack-layer profile-gradient pointer-events-none"></div>
           </div>
-          <a href="#" class="flex items-center justify-center w-[347px] border border-white bg-white text-[#313131] font-tight font-bold text-[17px] leading-[1.6] px-[26px] py-[13px] rounded-full hover:bg-stone-50 transition-colors">Join RevisionaryOnline today!</a>
+
+          <!-- CTA pill — teacher = white, student = stone-100 -->
+          <a id="portrait-cta" href="signup.html"
+             class="variant-pill flex items-center justify-center w-[347px] border border-neutral-200 bg-white text-[#313131] font-tight font-bold text-[17px] leading-[1.6] px-[26px] py-[13px] rounded-full hover:opacity-90 transition-opacity">
+            Join RevisionaryOnline today!
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- APP PREVIEW -->
-  <section class="relative max-w-[1440px] mx-auto mt-32 overflow-hidden">
-    <div class="flex justify-center mb-16">
-      <img src="assets/images/hero-decoration.svg" alt="" class="w-[1002px] max-w-full" aria-hidden="true" />
-    </div>
-    <div class="relative flex justify-center">
-      <div class="absolute w-[257px] h-[59px] rounded-full opacity-60" style="background:radial-gradient(circle,rgba(111,121,141,1) 5%,rgba(190,210,241,1) 51%,rgba(193,232,255,1) 78%,rgba(255,255,255,1) 100%);filter:blur(100px);top:60%;"></div>
-      <img src="assets/images/revisionary-app.png" alt="RevisionaryOnline App" class="relative z-10 w-[207px] h-[207px] rounded-2xl" />
-    </div>
-    <div class="flex justify-center mt-8">
-      <img src="assets/images/classroom.svg" alt="Classroom" class="max-w-[900px] w-full" />
+  <!-- FEATURE CARDS (parallax on drag — swap copy on toggle) -->
+  <section id="features" class="relative max-w-[1440px] mx-auto mt-28 px-[216px] pb-8">
+    <div id="feat-zone" class="relative grid grid-cols-3 gap-6 select-none cursor-grab active:cursor-grabbing">
+
+      <!-- Card 1 -->
+      <div class="feat-card bg-white rounded-[20px] p-6 card-shadow min-h-[280px] flex flex-col justify-end" data-speed="0.08">
+        <div class="flex flex-col gap-5">
+          <div class="w-12 h-12 rounded-full bg-revision-50 flex items-center justify-center">
+            <svg class="v-teacher variant-fade" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3 3 7v6c0 5 3.8 8.2 9 9 5.2-.8 9-4 9-9V7l-9-4Z" stroke="#783CF0" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="#783CF0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="v-student variant-fade absolute" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4z" stroke="#783CF0" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 13h8M8 17h5" stroke="#783CF0" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="relative min-h-[110px]">
+            <div class="stack-layer variant-fade v-teacher">
+              <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-800">Strict VCAA Alignment</h4>
+              <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">No off-curriculum surprises. Every resource is mapped to the current VCE Study Design.</p>
+            </div>
+            <div class="stack-layer variant-fade v-student">
+              <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-800">Real Exam-Aligned Practice</h4>
+              <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">Master the exact VCE structure and language. No generic questions—only what's on the exam.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feat-card bg-white rounded-[20px] p-6 card-shadow min-h-[280px] flex flex-col justify-end" data-speed="0.14">
+        <div class="flex flex-col gap-5">
+          <div class="w-12 h-12 rounded-full bg-revision-50 flex items-center justify-center relative">
+            <svg class="v-teacher variant-fade" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" stroke="#783CF0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="v-student variant-fade absolute" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0Z" stroke="#783CF0" stroke-width="1.8"/><path d="M8 13s1.5 2 4 2 4-2 4-2M9 10h.01M15 10h.01" stroke="#783CF0" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="relative min-h-[110px]">
+            <div class="stack-layer variant-fade v-teacher">
+              <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-800">Reduce Your Workload</h4>
+              <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">Less marking, fewer worksheets. Students arrive at class better prepared and ready to engage.</p>
+            </div>
+            <div class="stack-layer variant-fade v-student">
+              <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-800">Support Under Pressure</h4>
+              <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">Feeling overwhelmed? We provide the structure and guidance you need to stay calm during SACs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feat-card bg-white rounded-[20px] p-6 card-shadow min-h-[280px] flex flex-col justify-end" data-speed="0.1">
+        <div class="flex flex-col gap-5">
+          <div class="w-12 h-12 rounded-full bg-revision-50 flex items-center justify-center relative">
+            <svg class="v-teacher variant-fade" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 20V9m6 11V4m6 16v-7" stroke="#783CF0" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="v-student variant-fade absolute" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M13 3 4 14h7l-1 7 9-11h-7l1-7Z" stroke="#783CF0" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="relative min-h-[110px]">
+            <div class="stack-layer variant-fade v-teacher">
+              <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-800">Foster Independence</h4>
+              <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">Empower students to take ownership of their learning, reducing the need for constant one-on-one support.</p>
+            </div>
+            <div class="stack-layer variant-fade v-student">
+              <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-800">High-Impact, Not Long Hours</h4>
+              <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">Stop rewriting notes. Make faster progress through targeted practice that saves you time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features" class="relative max-w-[1440px] mx-auto mt-24 px-8">
-    <!-- Curated for VCE Brilliance -->
-    <div class="flex gap-16 items-start">
-      <div class="w-[428px] h-[555px] rounded-[32px] overflow-hidden flex-shrink-0 bg-[#F59E0B]">
-        <img src="assets/images/blog-image-1.png" alt="" class="w-full h-full object-cover" />
-      </div>
-      <div class="flex-1 pt-8">
-        <h2 class="font-rounded font-bold text-[32px] leading-[1.18] text-black text-center">Curated for&nbsp;VCE<br>Brilliance</h2>
-        <p class="mt-6 text-base font-medium leading-[1.4] text-black text-center max-w-[324px] mx-auto">Carefully curated practice, aligned with the VCE curriculum.</p>
-        <p class="mt-3 text-base font-medium leading-[1.4] text-black text-center max-w-[700px] mx-auto">Receive VCE high-scoring strategies and key tips. Subscribe for free today.</p>
-      </div>
+  <!-- CURATED / REALISTIC / INSIGHTS -->
+  <section class="max-w-[1440px] mx-auto mt-24 px-[216px]">
+    <div class="text-center">
+      <h2 class="font-rounded font-bold text-[32px] leading-[1.24] text-black">Curated for&nbsp;VCE<br>Brilliance</h2>
+      <p class="mt-5 text-base font-medium leading-[1.4] text-black">Carefully curated practice, aligned with the VCE curriculum.</p>
     </div>
 
-    <div class="flex justify-center my-8">
-      <img src="assets/images/dashed-line-1.svg" alt="" class="w-[391px]" aria-hidden="true" />
-    </div>
-
-    <!-- Realistic Exam Adventure -->
-    <div class="flex gap-16 items-start flex-row-reverse">
-      <div class="w-[428px] h-[555px] rounded-[32px] overflow-hidden flex-shrink-0 bg-emerald-500">
-        <img src="assets/images/blog-image-2.png" alt="" class="w-full h-full object-cover rounded-2xl" />
+    <div class="mt-20 grid grid-cols-2 gap-10 items-center">
+      <div class="h-[400px] rounded-[32px] bg-emerald-500 flex items-center justify-center overflow-hidden">
+        <img src="assets/images/landing-keyvisual.png" alt="" class="w-full h-full object-cover opacity-90" />
       </div>
-      <div class="flex-1 pt-8 text-right">
-        <h2 class="font-rounded font-bold text-[32px] leading-[1.18] text-black">Realistic Exam<br>Adventure</h2>
-        <p class="mt-6 text-base font-medium leading-[1.4] text-black max-w-[400px] ml-auto">Experience the rhythm and pressure of the real exam through practice.</p>
-        <p class="mt-3 text-base font-medium leading-[1.4] text-black max-w-[700px] ml-auto">Maximize your VCE subjects for the highest possible score.</p>
+      <div>
+        <h3 class="font-rounded font-bold text-[32px] leading-[1.24] text-black">Realistic Exam<br>Adventure</h3>
+        <p class="mt-5 text-base font-medium leading-[1.4] text-black max-w-[420px]">Experience the rhythm and pressure of the real exam through practice.</p>
       </div>
     </div>
 
-    <div class="flex justify-center my-8">
-      <img src="assets/images/dashed-line-2.svg" alt="" class="w-[543px]" aria-hidden="true" />
-    </div>
-
-    <!-- Insights, Not Just Answers -->
-    <div class="max-w-[700px] mx-auto mt-8">
-      <h2 class="font-rounded font-bold text-[32px] leading-[1.18] text-black text-center">Insights,<br>Not Just Answers</h2>
-      <p class="mt-6 text-base font-medium leading-[1.4] text-black text-center max-w-[470px] mx-auto">Beyond correctness, we prioritise understanding. Detailed feedback explains the reasoning behind each question, turning practice into meaningful learning.</p>
-    </div>
-
-    <div class="text-center mt-20">
-      <h3 class="font-heading font-extrabold text-[48px] leading-[1.36] text-black">Stay Ahead.</h3>
+    <div class="mt-20 grid grid-cols-2 gap-10 items-center">
+      <div>
+        <h3 class="font-rounded font-bold text-[32px] leading-[1.24] text-black">Insights,<br>Not Just Answers</h3>
+        <p class="mt-5 text-base font-medium leading-[1.4] text-black max-w-[470px]">Beyond correctness, we prioritise understanding. Detailed feedback explains the reasoning behind each question, turning practice into meaningful learning.</p>
+      </div>
+      <div class="h-[400px] rounded-[32px] bg-[#F59E0B] overflow-hidden">
+        <img src="assets/images/landing-keyvisual.png" alt="" class="w-full h-full object-cover opacity-90" />
+      </div>
     </div>
   </section>
 
-  <!-- BLOG PREVIEW -->
-  <section class="max-w-[1440px] mx-auto mt-24 px-8">
-    <div class="flex gap-16">
-      <div class="flex-1">
-        <h4 class="font-heading font-extrabold text-2xl leading-[1.36] text-black">How did we do it?</h4>
-        <div class="mt-10">
-          <h5 class="font-heading font-extrabold text-2xl leading-[1.36] text-black max-w-[398px]">Habits We All Have - and How to Set Them Right for</h5>
+  <!-- STAY AHEAD + BLOG -->
+  <section class="max-w-[1440px] mx-auto mt-28 px-[216px] text-center">
+    <h2 class="font-heading font-extrabold text-[48px] leading-none text-black">Stay Ahead.</h2>
+    <p class="mt-5 text-base font-medium leading-[1.4] text-black max-w-[620px] mx-auto">
+      Receive VCE high-scoring strategies and key tips. Subscribe for free today.
+    </p>
+
+    <div class="mt-14 grid grid-cols-2 gap-16 text-left">
+      <div>
+        <h4 class="font-heading font-extrabold text-2xl leading-[1.4] text-black">How did we do it?</h4>
+        <div class="mt-8">
+          <h5 class="font-heading font-extrabold text-2xl leading-[1.4] text-black max-w-[398px]">Habits We All Have - and How to Set Them Right for</h5>
           <p class="mt-3 text-base font-normal leading-[1.4] text-black max-w-[529px]">A Letter to Today's VCE Students from Someone Who Lived to tell the Tale By someone who survied VCE with both an ATAR and a soul.</p>
         </div>
-        <div class="mt-10">
-          <p class="text-base font-normal leading-[1.4] text-black max-w-[529px]">A Letter to Today's VCE Students from Someone Who Lived to tell the Tale By someone who survied VCE with both an ATAR and a soul.</p>
-        </div>
       </div>
-      <div class="flex flex-col gap-6 flex-shrink-0">
-        <div class="w-[316px] h-[186px] rounded-2xl overflow-hidden border border-neutral-200">
-          <img src="assets/images/vce-screenshot.png" alt="VCE Schedule" class="w-full h-full object-cover" />
+      <div class="flex flex-col gap-5">
+        <div class="h-[186px] rounded-2xl overflow-hidden bg-stone-200">
+          <img src="assets/images/landing-keyvisual.png" alt="" class="w-full h-full object-cover" />
         </div>
-        <div class="w-[316px] h-[186px] rounded-2xl overflow-hidden border border-neutral-200">
-          <img src="assets/images/about-exam-screenshot.png" alt="About Exam" class="w-full h-full object-cover" />
+        <div class="h-[186px] rounded-2xl overflow-hidden bg-stone-200">
+          <img src="assets/images/landing-keyvisual.png" alt="" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA — Unlock Your Potential -->
-  <section class="max-w-[1440px] mx-auto mt-24 px-8 text-center">
-    <h2 class="font-heading font-extrabold text-[48px] leading-[1.36] text-black">Unlock Your Potential.</h2>
-    <div class="flex items-center justify-center gap-6 mt-10">
-      <a href="#" class="inline-flex items-center justify-center bg-revision-500 text-white font-tight font-bold text-[17px] leading-[1.6] px-5 py-3.5 rounded-full hover:bg-revision-600 transition-colors">Sucbscribe Now</a>
-      <a href="#" class="inline-flex items-center justify-center border border-stone-700 text-stone-700 font-medium text-sm leading-[1.34] px-4 py-4 rounded-full hover:bg-stone-100 transition-colors gap-2">
+  <!-- UNLOCK CTA -->
+  <section class="max-w-[1440px] mx-auto mt-28 px-[216px] text-center">
+    <h2 class="font-heading font-extrabold text-[48px] leading-none text-black">Unlock Your Potential.</h2>
+    <p class="mt-5 text-base font-medium leading-[1.4] text-black">Maximize your VCE subjects for the highest possible score.</p>
+    <div class="flex items-center justify-center gap-5 mt-10">
+      <a href="signup.html" class="inline-flex items-center justify-center bg-revision-500 hover:bg-revision-600 text-white font-tight font-bold text-[17px] leading-[1.6] px-6 py-3.5 rounded-full transition-colors">Sucbscribe Now</a>
+      <a href="blog.html" class="inline-flex items-center justify-center gap-2 border border-stone-700 text-stone-700 font-medium text-sm px-5 py-3.5 rounded-full hover:bg-stone-100 transition-colors">
         View All
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
-    <div class="flex justify-center mt-10">
-      <img src="assets/images/divider-line.svg" alt="" class="w-full max-w-[1000px]" aria-hidden="true" />
-    </div>
-    <div class="mt-10 mx-auto max-w-[907px] rounded-2xl overflow-hidden">
-      <img src="assets/images/tablet-preview.png" alt="RevisionaryOnline Dashboard" class="w-full h-auto rounded-2xl" />
-    </div>
-  </section>
-
-  <!-- TEACHER FEATURE CARDS -->
-  <section class="relative max-w-[1440px] mx-auto mt-24 px-8 pb-24">
-    <div class="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[1336px] h-[1336px] rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(220,151,41,1) 0%,rgba(158,97,36,1) 72%,rgba(24,38,165,1) 100%);filter:blur(760px);opacity:0.3;"></div>
-    <div class="relative z-10 grid grid-cols-3 gap-6">
-      <div class="bg-white rounded-[20px] p-6 card-shadow flex flex-col justify-end min-h-[280px]">
-        <div class="flex items-start gap-4">
-          <img src="assets/images/icon-vcaa.svg" alt="" class="w-10 h-10 flex-shrink-0" />
-          <div>
-            <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-700">Strict VCAA Alignment</h4>
-            <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">No off-curriculum surprises. Every resource is mapped to the current VCE Study Design.</p>
-          </div>
-        </div>
-      </div>
-      <div class="bg-white rounded-[20px] p-6 card-shadow flex flex-col justify-end min-h-[280px]">
-        <div class="flex items-start gap-4">
-          <img src="assets/images/icon-independence.svg" alt="" class="w-10 h-10 flex-shrink-0" />
-          <div>
-            <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-700">Foster Independence</h4>
-            <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">Empower students to take ownership of their learning, reducing the need for constant one-on-one support.</p>
-          </div>
-        </div>
-      </div>
-      <div class="bg-white rounded-[20px] p-6 card-shadow flex flex-col justify-end min-h-[280px]">
-        <div class="flex items-start gap-4">
-          <img src="assets/images/icon-workload.svg" alt="" class="w-10 h-10 flex-shrink-0" />
-          <div>
-            <h4 class="font-tight font-semibold text-xl leading-[1.34] text-neutral-700">Reduce Your Workload</h4>
-            <p class="mt-2 text-sm font-normal leading-[1.4] text-neutral-700">Less marking, fewer worksheets. Students arrive at class better prepared and ready to engage.</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="relative w-full bg-stone-300">
-    <div class="max-w-[1440px] mx-auto relative" style="min-height:527px;">
-      <div class="absolute left-[50px] top-[40px]">
-        <img src="assets/images/footer-symbol.svg" alt="" class="w-[76px]" />
-      </div>
-      <div class="absolute left-[50px] top-[140px]">
-        <img src="assets/images/footer-wordmark.svg" alt="RevisionaryOnline" class="h-8" />
-      </div>
-      <div class="absolute right-[220px] top-[40px] flex flex-col gap-4">
-        <a href="#" class="text-xl font-medium leading-[1.4] text-black hover:text-revision-500 transition-colors">Score Calculator</a>
-        <a href="#" class="text-xl font-medium leading-[1.4] text-black hover:text-revision-500 transition-colors">VCE Schedule</a>
-        <a href="#" class="text-xl font-medium leading-[1.4] text-black hover:text-revision-500 transition-colors">Features</a>
-        <a href="#" class="text-xl font-medium leading-[1.4] text-black hover:text-revision-500 transition-colors">Contact</a>
-      </div>
-      <div class="absolute right-[220px] bottom-[40px] text-right opacity-50">
-        <p class="text-xs font-medium leading-[1.19] text-[#1F1F1F]">REVISION ONLINE PTY LTD&#9400;2026<br>Trademarks and brands are the property of RevisionaryOnline.</p>
+  <footer class="relative w-full bg-[#D4D2CC] mt-28">
+    <div class="max-w-[1440px] mx-auto relative px-[50px] py-[60px] min-h-[300px]">
+      <div class="flex items-start justify-between">
+        <div class="flex flex-col gap-16">
+          <img src="assets/images/logo-combination.svg" alt="RevisionaryOnline" class="h-10" />
+          <p class="text-xs font-medium leading-[1.4] text-[#1F1F1F] opacity-60">REVISION ONLINE PTY LTD&#9400;2026<br>Trademarks and brands are the property of RevisionaryOnline.</p>
+        </div>
+        <div class="flex flex-col gap-4 text-right">
+          <a href="#" class="text-base font-medium text-black hover:text-revision-500 transition-colors">Score Calculator</a>
+          <a href="#" class="text-base font-medium text-black hover:text-revision-500 transition-colors">VCE Schedule</a>
+          <a href="#features" class="text-base font-medium text-black hover:text-revision-500 transition-colors">Features</a>
+          <a href="#" class="text-base font-medium text-black hover:text-revision-500 transition-colors">Contact</a>
+        </div>
       </div>
     </div>
   </footer>
+
+  <script>
+    /* ─── Role toggle (teacher ↔ student) ─── */
+    const body = document.body;
+    const roleLabels = document.querySelectorAll('[data-role]');
+    const portraitCTA = document.getElementById('portrait-cta');
+
+    function setVariant(v) {
+      body.dataset.variant = v;
+
+      roleLabels.forEach(el => {
+        const active = el.dataset.role === v;
+        const dotOuter = el.querySelector('.role-dot');
+        const dotInner = dotOuter.firstElementChild;
+        const lbl = el.querySelector('.role-label');
+
+        dotOuter.classList.toggle('border-revision-500', active);
+        dotOuter.classList.toggle('border-neutral-400', !active);
+        dotInner.classList.toggle('opacity-100', active);
+        dotInner.classList.toggle('scale-100', active);
+        dotInner.classList.toggle('opacity-0', !active);
+        dotInner.classList.toggle('scale-50', !active);
+        lbl.classList.toggle('text-black', active);
+        lbl.classList.toggle('text-neutral-400', !active);
+      });
+
+      if (v === 'student') {
+        portraitCTA.classList.remove('bg-white');
+        portraitCTA.classList.add('bg-[#F4F4F1]');
+      } else {
+        portraitCTA.classList.add('bg-white');
+        portraitCTA.classList.remove('bg-[#F4F4F1]');
+      }
+    }
+
+    roleLabels.forEach(el => {
+      el.addEventListener('click', () => setVariant(el.dataset.role));
+    });
+
+    setVariant('teacher');
+
+    /* ─── Parallax drag on feature cards ─── */
+    const zone = document.getElementById('feat-zone');
+    const cards = zone.querySelectorAll('.feat-card');
+    let dragging = false;
+    let startX = 0, startY = 0;
+
+    function applyOffset(dx, dy) {
+      cards.forEach(c => {
+        const speed = parseFloat(c.dataset.speed || '0.1');
+        c.style.transform = `translate(${dx * speed}px, ${dy * speed}px)`;
+      });
+    }
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      cards.forEach(c => {
+        c.dataset.dragging = 'false';
+        c.style.transform = 'translate(0, 0)';
+      });
+    }
+
+    zone.addEventListener('pointerdown', e => {
+      dragging = true;
+      startX = e.clientX; startY = e.clientY;
+      cards.forEach(c => c.dataset.dragging = 'true');
+      zone.setPointerCapture?.(e.pointerId);
+    });
+    zone.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = (e.clientX - startX);
+      const dy = (e.clientY - startY);
+      const cap = 80;
+      const cdx = Math.max(-cap, Math.min(cap, dx));
+      const cdy = Math.max(-cap, Math.min(cap, dy));
+      applyOffset(cdx, cdy);
+    });
+    zone.addEventListener('pointerup', endDrag);
+    zone.addEventListener('pointercancel', endDrag);
+    zone.addEventListener('pointerleave', endDrag);
+  </script>
 
 </body>
 </html>
